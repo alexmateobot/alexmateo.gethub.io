@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex S. Gonzalez Mateo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #132040;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --cream: #f5f0e8;
+      --cream-dark: #e8e0d0;
+      --text: #1a1a2e;
+      --muted: #6b6b7b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(201,168,76,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-text {
+      padding: 80px 60px 80px 80px;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero-name {
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-title {
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.65);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold);
+    }
+    .btn-outline:hover {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      animation: fadeIn 1.2s ease 0.2s both;
+    }
+
+    .hero-image-wrap::before {
+      content: '';
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 50%;
+    }
+
+    .hero-image-wrap::after {
+      content: '';
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 50%;
+    }
+
+    .hero-photo {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      border: 3px solid var(--gold);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy-mid);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 0 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 100px 80px;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 60px;
+      color: var(--navy);
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ── ABOUT ── */
+    .about { background: var(--cream); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-text {
+      font-size: 1.2rem;
+      line-height: 1.85;
+      color: #333;
+      font-weight: 300;
+    }
+
+    .about-text p + p { margin-top: 20px; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--navy);
+    }
+
+    .stat {
+      background: var(--cream);
+      padding: 32px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .gold-line {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 12px auto 0;
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience { background: var(--navy); }
+    .experience .section-title { color: var(--cream); }
+
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 60px 40px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 8px;
+      width: 9px;
+      height: 9px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    .timeline-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-company {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .timeline-period {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: rgba(245,240,232,0.4);
+    }
+
+    .timeline-role {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .timeline-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .timeline-bullets li {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: rgba(245,240,232,0.65);
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .timeline-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+
+    /* ── EDUCATION ── */
+    .education { background: var(--cream-dark); }
+
+    .edu-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 40px;
+      align-items: start;
+      padding: 50px;
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+      max-width: 800px;
+    }
+
+    .edu-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+      text-transform: uppercase;
+    }
+
+    .edu-school {
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .edu-degree {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .edu-gpa {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      background: var(--navy);
+      color: var(--gold);
+      padding: 8px 16px;
+    }
+
+    /* ── SKILLS ── */
+    .skills { background: var(--cream); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--cream-dark);
+    }
+
+    .skill-cat {
+      background: var(--cream);
+      padding: 40px;
+    }
+
+    .skill-cat-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .skill-list li {
+      font-size: 1rem;
+      color: var(--navy);
+      font-weight: 300;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--navy); text-align: center; }
+    .contact .section-title { color: var(--cream); }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+
+    .contact-item {
+      text-align: center;
+    }
+
+    .contact-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.6);
+      margin-bottom: 8px;
+    }
+
+    .contact-value {
+      font-size: 1rem;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    a.contact-value:hover { color: var(--gold); }
+
+    .contact-cta {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      background: var(--gold);
+      color: var(--navy);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .contact-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #050d1a;
+      padding: 24px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.3);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 30px; }
+      section { padding: 70px 30px; }
+      .hero { grid-template-columns: 1fr; padding: 80px 30px 40px; }
+      .hero-text { padding: 0; }
+      .hero-image-wrap { padding: 40px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-info { gap: 30px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Portfolio &mdash; 2025</p>
+      <h1 class="hero-name">Alex S.<br /><em>Gonzalez Mateo</em></h1>
+      <p class="hero-title">Accounting &amp; Finance · Rutgers Business School<br />EY Parthenon &nbsp;·&nbsp; Veris Residential &nbsp;·&nbsp; GPA 3.88</p>
+      <div class="hero-links">
+        <a href="mailto:asg279@rutgers.edu" class="btn btn-primary">Get In Touch</a>
+        <a href="https://www.linkedin.com/in/agmateo/" class="btn btn-outline" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <img src="Assets/ProfilePic.jpeg" alt="Alex S. Gonzalez Mateo" class="hero-photo" />
+    </div>
+  </section>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#top" class="nav-logo">A.G.M.</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <p class="section-label">01 &mdash; About</p>
+    <h2 class="section-title">Finance meets<br /><em>ambition</em></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a driven Accounting &amp; Finance student at Rutgers Business School with a concentration in Real Estate, graduating May 2027. I combine rigorous academic training with hands-on experience in financial due diligence, corporate accounting, and public-sector operations.</p>
+        <p>From conducting buy-side due diligence on a $90M acquisition at EY Parthenon to reconciling $125M+ in revenue at Veris Residential, I bring precision and analytical depth to every engagement.</p>
+        <p>Fluent in Spanish and proficient in Power BI, IDEA, and UIPath Studio, I'm passionate about merging financial strategy with operational excellence.</p>
+      </div>
+      <div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-number">3.88</div>
+            <div class="gold-line"></div>
+            <div class="stat-label">GPA</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">$90M</div>
+            <div class="gold-line"></div>
+            <div class="stat-label">FDD Target</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">1,200+</div>
+            <div class="gold-line"></div>
+            <div class="stat-label">Scholarships Processed / Semester</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">175+</div>
+            <div class="gold-line"></div>
+            <div class="stat-label">Volunteer Hours / Year</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="experience">
+    <p class="section-label" style="color:rgba(201,168,76,0.6)">02 &mdash; Experience</p>
+    <h2 class="section-title">Professional<br /><em>history</em></h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <span class="timeline-company">Ernst &amp; Young · Parthenon</span>
+          <span class="timeline-period">June 2025 — Aug 2025 · Atlanta, GA</span>
+        </div>
+        <div class="timeline-role">Launch Intern — Financial Due Diligence</div>
+        <ul class="timeline-bullets">
+          <li>Conducted buy-side FDD on a $90M acquisition target, analyzing EBITDA adjustments, QoE findings, and working capital trends.</li>
+          <li>Evaluated target indebtedness and balance sheet risks impacting valuation and deal structure.</li>
+          <li>Engaged directly with the private equity client and deal team to support diligence requests and findings.</li>
+          <li>Conducted Databook analysis of AP aging schedules and unaccounted PTO liabilities to assess NWC adjustments.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <span class="timeline-company">Veris Residential Inc.</span>
+          <span class="timeline-period">May 2024 — Aug 2024 · Jersey City, NJ</span>
+        </div>
+        <div class="timeline-role">Accounting Intern</div>
+        <ul class="timeline-bullets">
+          <li>Performed tie-out procedures on the company's Q2 report, ensuring accuracy for $125M+ in revenue and expenses.</li>
+          <li>Collaborated with corporate accounting to process 200+ invoices, ensuring timely and accurate payments.</li>
+          <li>Reconciled bank statements and performed cash sweep entries, maintaining 100% accuracy in records.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <span class="timeline-company">Rutgers Student Accounting, Billing &amp; Cashier Services</span>
+          <span class="timeline-period">Sept 2023 — Jan 2026 · New Brunswick, NJ</span>
+        </div>
+        <div class="timeline-role">Student Accountant</div>
+        <ul class="timeline-bullets">
+          <li>Expedited processing of 1,200+ scholarships per semester and other financial aid packages.</li>
+          <li>Assisted students with inquiries related to accounts and Rutgers management.</li>
+          <li>Facilitated and instructed 2 new assistants in executing 3 special projects for Rutgers management.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item" style="padding-bottom:0">
+        <div class="timeline-meta">
+          <span class="timeline-company">NJ Motor Vehicle Commission</span>
+          <span class="timeline-period">Apr 2024 — Present · Lodi, NJ</span>
+        </div>
+        <div class="timeline-role">Student Rate Technician</div>
+        <ul class="timeline-bullets">
+          <li>Process and issue agency documents including permits, driver licenses, titles, and NJMVC IDs.</li>
+          <li>Administer 100–200 oral and written examinations for license applicants per day.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="education" id="education">
+    <p class="section-label">03 &mdash; Education</p>
+    <h2 class="section-title">Academic<br /><em>foundation</em></h2>
+    <div class="edu-card">
+      <div class="edu-year">2023 — 2027</div>
+      <div>
+        <div class="edu-school">Rutgers Business School</div>
+        <div class="edu-degree">B.S. in Accounting &amp; Finance — Concentration in Real Estate</div>
+        <div>
+          <span class="edu-gpa">GPA 3.88 / 4.0</span>
+          &nbsp;&nbsp;
+          <span class="edu-gpa" style="background:transparent;border:1px solid var(--navy);color:var(--muted)">Dean's List — Fall 2023 to Present</span>
+        </div>
+        <div style="margin-top:24px;font-size:0.95rem;color:var(--muted)">
+          <strong style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--navy)">Scholarships</strong><br />
+          NJ CPA · Rutgers Center For Real Estate · NVE Bank · Greater Bergen Community · Jovia Financial
+        </div>
+        <div style="margin-top:16px;font-size:0.95rem;color:var(--muted)">
+          <strong style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--navy)">Clubs</strong><br />
+          ALPFA · Rutgers Corporate Finance Society · RU Accounting Association · Little Investment Bankers of Rutgers
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills" id="skills">
+    <p class="section-label">04 &mdash; Skills</p>
+    <h2 class="section-title">Capabilities &amp;<br /><em>expertise</em></h2>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <div class="skill-cat-title">Languages</div>
+        <ul class="skill-list">
+          <li>English (Native)</li>
+          <li>Spanish (Fluent)</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Technology</div>
+        <ul class="skill-list">
+          <li>Microsoft Excel (Advanced)</li>
+          <li>Power BI</li>
+          <li>UIPath Studio</li>
+          <li>IDEA</li>
+          <li>PowerPoint · Word</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Finance &amp; Accounting</div>
+        <ul class="skill-list">
+          <li>Financial Due Diligence</li>
+          <li>EBITDA Analysis</li>
+          <li>Working Capital Assessment</li>
+          <li>Bank Reconciliation</li>
+          <li>Investment Analysis</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <p class="section-label" style="color:rgba(201,168,76,0.6)">05 &mdash; Contact</p>
+    <h2 class="section-title">Let's<br /><em>connect</em></h2>
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-label">Email</div>
+        <a href="mailto:asg279@rutgers.edu" class="contact-value">asg279@rutgers.edu</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Phone</div>
+        <span class="contact-value">(201) 485-1589</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Location</div>
+        <span class="contact-value">Bergenfield, NJ</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">LinkedIn</div>
+        <a href="https://www.linkedin.com/in/agmateo/" class="contact-value" target="_blank">linkedin.com/in/agmateo</a>
+      </div>
+    </div>
+    <a href="mailto:asg279@rutgers.edu" class="contact-cta">Send a Message</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Alex S. Gonzalez Mateo</p>
+    <p>Built with GitHub Pages</p>
+  </footer>
+
+</body>
+</html>
