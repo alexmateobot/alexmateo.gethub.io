@@ -1,0 +1,2352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ISC CPA Study Hub | Alex Gonzalez Mateo</title>
+  <meta name="description" content="A comprehensive study tool for the ISC (Information Systems & Controls) section of the CPA exam. 120 practice questions with full explanations, AI tutoring, and reference guide."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+/* ═══════════════════════════════════════════
+   ISC CPA STUDY HUB — style.css
+   Matches Alex Gonzalez Mateo's personal site
+   Navy · Gold · Cormorant Garamond · DM Mono
+═══════════════════════════════════════════ */
+
+/* ── Reset & Variables ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #0a1628;
+  --navy-mid:    #132040;
+  --navy-light:  #1e3058;
+  --navy-hover:  #243a6a;
+  --gold:        #c9a84c;
+  --gold-light:  #e8c97a;
+  --gold-dim:    rgba(201, 168, 76, 0.12);
+  --gold-border: rgba(201, 168, 76, 0.25);
+  --cream:       #f5f0e8;
+  --cream-dark:  #e8e0d0;
+  --text-dim:    rgba(245, 240, 232, 0.55);
+  --text-mid:    rgba(245, 240, 232, 0.75);
+  --green:       #2d7a4f;
+  --green-bg:    rgba(45, 122, 79, 0.12);
+  --green-border:rgba(45, 122, 79, 0.4);
+  --red:         #8b2020;
+  --red-bg:      rgba(139, 32, 32, 0.12);
+  --red-border:  rgba(139, 32, 32, 0.4);
+  --header-h:    62px;
+  --radius:      3px;
+  --transition:  0.2s ease;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: var(--navy);
+  color: var(--cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(201, 168, 76, 0.3); border-radius: 2px; }
+
+/* ════════════════════════════════════
+   HEADER
+════════════════════════════════════ */
+#appHeader {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  height: var(--header-h);
+  background: var(--navy-mid);
+  border-bottom: 1px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-isc {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  font-weight: 500;
+}
+.logo-sep {
+  font-family: 'DM Mono', monospace;
+  color: var(--gold-border);
+  font-size: 0.7rem;
+}
+.logo-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.tab-bar { display: flex; }
+.tab-btn {
+  height: var(--header-h);
+  padding: 0 22px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--cream); }
+.tab-btn.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.header-right { flex-shrink: 0; }
+.score-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  padding: 5px 14px;
+  min-width: 70px;
+}
+.score-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201, 168, 76, 0.5);
+}
+.score-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ════════════════════════════════════
+   VIEW SYSTEM
+════════════════════════════════════ */
+.view {
+  display: none;
+  min-height: calc(100vh - var(--header-h));
+  animation: viewIn 0.3s ease;
+}
+.view.active { display: block; }
+
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════════════════════════
+   SHARED BUTTONS
+════════════════════════════════════ */
+.btn-primary {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 30px;
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 30px;
+  background: none;
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.btn-ghost:hover { background: var(--gold-dim); border-color: var(--gold); }
+
+.btn-ghost-sm {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  background: none;
+  color: var(--text-dim);
+  border: 1px solid rgba(245,240,232,0.1);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-ghost-sm:hover { color: var(--gold); border-color: var(--gold-border); }
+
+.btn-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  background: none;
+  color: var(--text-dim);
+  border: 1px solid rgba(245,240,232,0.1);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.btn-back:hover { color: var(--gold); border-color: var(--gold-border); }
+
+/* ════════════════════════════════════
+   HOME VIEW
+════════════════════════════════════ */
+.home-hero {
+  padding: 80px 80px 60px;
+  background:
+    radial-gradient(ellipse 60% 70% at 80% 50%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  border-bottom: 1px solid var(--gold-border);
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-size: clamp(2.6rem, 5vw, 5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--cream);
+  margin-bottom: 24px;
+}
+.hero-title em { font-style: italic; color: var(--gold-light); }
+
+.hero-sub {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--text-mid);
+  max-width: 580px;
+  margin-bottom: 40px;
+}
+
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 50px; }
+
+.hero-stats {
+  display: flex;
+  gap: 0;
+  background: var(--gold-border);
+  width: fit-content;
+}
+.hero-stat {
+  background: var(--navy-mid);
+  padding: 18px 32px;
+  text-align: center;
+  border-right: 1px solid var(--gold-border);
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hero-stat-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── Domain Grid ── */
+.home-domains, .home-modes {
+  padding: 60px 80px;
+  border-bottom: 1px solid var(--gold-border);
+}
+
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.55);
+  margin-bottom: 24px;
+}
+
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2px;
+  background: var(--gold-border);
+}
+.domain-card {
+  background: var(--navy-mid);
+  padding: 24px 26px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+  position: relative;
+}
+.domain-card:hover { background: var(--navy-light); border-bottom-color: var(--gold); }
+.domain-card-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.domain-card-count {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* ── Mode Cards ── */
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2px;
+  background: var(--gold-border);
+}
+.mode-card {
+  background: var(--navy-mid);
+  padding: 32px 28px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+}
+.mode-card:hover { border-bottom-color: var(--gold); background: var(--navy-light); }
+.mode-icon { font-size: 1.6rem; margin-bottom: 12px; }
+.mode-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.mode-desc { font-size: 0.95rem; color: var(--text-dim); line-height: 1.5; }
+
+/* ── Home Footer ── */
+.home-footer {
+  padding: 28px 80px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: rgba(245,240,232,0.25);
+}
+.home-footer a { color: var(--gold); text-decoration: none; opacity: 0.7; }
+.home-footer a:hover { opacity: 1; }
+
+/* ════════════════════════════════════
+   QUIZ VIEW
+════════════════════════════════════ */
+.quiz-topbar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 100;
+  background: var(--navy-mid);
+  border-bottom: 1px solid var(--gold-border);
+  padding: 14px 36px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.quiz-progress-wrap { flex: 1; }
+.quiz-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 7px;
+}
+.progress-track {
+  height: 2px;
+  background: rgba(201,168,76,0.15);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 1px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+.quiz-live-score {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  background: var(--gold-dim);
+  padding: 6px 14px;
+  border: 1px solid var(--gold-border);
+  white-space: nowrap;
+}
+
+/* ── Question Card ── */
+.quiz-body {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 50px 36px 80px;
+}
+
+.question-card { animation: slideIn 0.3s ease; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.q-domain-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  padding: 5px 12px;
+  margin-bottom: 8px;
+}
+.q-difficulty-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  margin-left: 6px;
+  margin-bottom: 8px;
+}
+.q-difficulty-tag.easy   { background: rgba(45,122,79,0.15);   color: #5dba87; border: 1px solid rgba(45,122,79,0.3); }
+.q-difficulty-tag.medium { background: rgba(201,168,76,0.12);  color: var(--gold); border: 1px solid var(--gold-border); }
+.q-difficulty-tag.hard   { background: rgba(139,32,32,0.15);   color: #d97272; border: 1px solid rgba(139,32,32,0.3); }
+
+.q-text {
+  font-size: 1.3rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--cream);
+  margin: 20px 0 32px;
+}
+
+.options { display: flex; flex-direction: column; gap: 10px; }
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 22px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(245,240,232,0.1);
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  color: var(--text-mid);
+  line-height: 1.55;
+  transition: all var(--transition);
+  border-radius: var(--radius);
+  width: 100%;
+}
+.option:hover:not(.disabled) {
+  background: var(--gold-dim);
+  border-color: rgba(201,168,76,0.4);
+  color: var(--cream);
+}
+.option-letter {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold);
+  min-width: 20px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.option.correct {
+  background: var(--green-bg);
+  border-color: var(--green-border);
+  color: var(--cream);
+}
+.option.wrong {
+  background: var(--red-bg);
+  border-color: var(--red-border);
+  color: var(--cream);
+}
+.option.disabled { cursor: default; }
+
+/* ── Feedback ── */
+.feedback-box {
+  margin-top: 22px;
+  padding: 22px 26px;
+  border-radius: var(--radius);
+  animation: fadeIn 0.25s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.feedback-box.correct-fb {
+  background: var(--green-bg);
+  border-left: 3px solid var(--green);
+}
+.feedback-box.wrong-fb {
+  background: var(--red-bg);
+  border-left: 3px solid var(--red);
+}
+.feedback-verdict {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.feedback-box.correct-fb .feedback-verdict { color: #5dba87; }
+.feedback-box.wrong-fb   .feedback-verdict { color: #d97272; }
+.feedback-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-mid);
+}
+
+/* ── Quiz Actions ── */
+.quiz-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+.btn-next {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-next:hover:not(:disabled) { background: var(--gold-light); }
+.btn-next:disabled { opacity: 0.35; cursor: default; }
+
+/* ════════════════════════════════════
+   RESULTS VIEW
+════════════════════════════════════ */
+.results-wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 60px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.results-top { text-align: center; }
+.results-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  margin-bottom: 28px;
+}
+
+/* Ring */
+.results-score-ring {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 24px;
+}
+.ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.ring-bg {
+  fill: none;
+  stroke: rgba(201,168,76,0.1);
+  stroke-width: 8;
+}
+.ring-fill {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 327;
+  stroke-dashoffset: 327;
+  transition: stroke-dashoffset 1s ease;
+}
+.ring-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.ring-pct {
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+}
+.ring-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.results-msg {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text-mid);
+}
+
+/* Stats Row */
+.results-stats {
+  display: flex;
+  gap: 2px;
+  background: var(--gold-border);
+  width: 100%;
+}
+.r-stat {
+  flex: 1;
+  background: var(--navy-mid);
+  padding: 24px;
+  text-align: center;
+}
+.r-stat-num { font-size: 2.4rem; font-weight: 300; line-height: 1; margin-bottom: 6px; }
+.r-stat.correct .r-stat-num { color: #5dba87; }
+.r-stat.wrong   .r-stat-num { color: #d97272; }
+.r-stat.total   .r-stat-num { color: var(--cream); }
+.r-stat-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* Domain Breakdown */
+.results-domain-breakdown { width: 100%; }
+.breakdown-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  margin-bottom: 14px;
+}
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.breakdown-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  width: 200px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.breakdown-bar-track {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.breakdown-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s ease;
+}
+.breakdown-score {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.results-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+/* ════════════════════════════════════
+   CHAT VIEW
+════════════════════════════════════ */
+.chat-layout {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 36px 36px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-h));
+}
+
+.chat-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 32px 0 18px;
+  border-bottom: 1px solid var(--gold-border);
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.chat-header h2 { font-size: 1.8rem; font-weight: 300; }
+.chat-header h2 em { font-style: italic; color: var(--gold); }
+.chat-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* Chip Bar */
+.chip-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  flex-shrink: 0;
+}
+.chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 13px;
+  border: 1px solid var(--gold-border);
+  color: rgba(201,168,76,0.75);
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+.chip:hover { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+/* Messages */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 8px 0 20px;
+}
+
+.msg {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  max-width: 90%;
+}
+.msg.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.msg.assistant { align-self: flex-start; }
+
+.msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  background: var(--navy-light);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+}
+
+.msg-content { display: flex; flex-direction: column; gap: 3px; }
+.msg-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 0 4px;
+}
+.msg.user .msg-role { text-align: right; }
+
+.msg-bubble {
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.msg.user .msg-bubble {
+  background: var(--gold);
+  color: var(--navy);
+}
+.msg.assistant .msg-bubble {
+  background: var(--navy-mid);
+  border: 1px solid var(--gold-border);
+  color: var(--cream);
+}
+.msg-bubble p + p { margin-top: 10px; }
+.msg-bubble ul { padding-left: 18px; margin-top: 8px; }
+.msg-bubble li { margin-bottom: 5px; }
+.msg-bubble strong { color: var(--gold-light); font-weight: 600; }
+
+/* Typing Indicator */
+.typing-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 8px 0;
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: typingBlink 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBlink {
+  0%, 80%, 100% { opacity: 0.2; }
+  40%           { opacity: 1; }
+}
+
+/* Input Area */
+.chat-input-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  padding-top: 14px;
+  border-top: 1px solid var(--gold-border);
+  flex-shrink: 0;
+}
+.chat-input {
+  flex: 1;
+  background: var(--navy-mid);
+  border: 1px solid rgba(201,168,76,0.2);
+  color: var(--cream);
+  padding: 14px 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  border-radius: var(--radius);
+  outline: none;
+  resize: none;
+  min-height: 50px;
+  max-height: 140px;
+  line-height: 1.5;
+}
+.chat-input:focus { border-color: rgba(201,168,76,0.5); }
+.chat-input::placeholder { color: rgba(245,240,232,0.2); }
+.chat-send {
+  width: 50px;
+  height: 50px;
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition);
+  border-radius: var(--radius);
+}
+.chat-send:hover { background: var(--gold-light); }
+.chat-send:disabled { opacity: 0.35; cursor: default; }
+
+/* ════════════════════════════════════
+   REFERENCE VIEW
+════════════════════════════════════ */
+.ref-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 36px 80px;
+}
+
+.ref-header { margin-bottom: 10px; }
+.ref-header h2 { font-size: 2.2rem; font-weight: 300; }
+.ref-header h2 em { font-style: italic; color: var(--gold); }
+.ref-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+.ref-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--gold-border);
+  margin-bottom: 32px;
+}
+.ref-filter {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid rgba(245,240,232,0.1);
+  color: var(--text-dim);
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+.ref-filter:hover { border-color: var(--gold-border); color: var(--gold); }
+.ref-filter.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2px;
+  background: var(--gold-border);
+}
+.ref-card {
+  background: var(--navy-mid);
+  padding: 28px 30px;
+  transition: background var(--transition);
+}
+.ref-card.hidden { display: none; }
+.ref-card-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gold-border);
+  margin-bottom: 18px;
+}
+.ref-item { margin-bottom: 14px; }
+.ref-item-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.ref-item-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  background: var(--gold-dim);
+  border-left: 2px solid var(--gold);
+  padding: 9px 14px;
+  color: var(--cream);
+  line-height: 1.55;
+}
+.ref-item-desc {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.55;
+  margin-top: 5px;
+}
+
+/* ════════════════════════════════════
+   SELECTOR OVERLAY
+════════════════════════════════════ */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.92);
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+.overlay.open { display: flex; }
+
+.selector-box {
+  background: var(--navy-mid);
+  border: 1px solid var(--gold-border);
+  padding: 44px;
+  max-width: 580px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+.selector-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+.selector-close:hover { color: var(--cream); }
+
+.selector-title {
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 4px;
+}
+.selector-title em { font-style: italic; color: var(--gold); }
+.selector-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.selector-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  margin-bottom: 10px;
+}
+
+/* Filter Type Tabs */
+.filter-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--gold-border);
+  margin-bottom: 16px;
+}
+.ftab {
+  flex: 1;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 12px;
+  background: var(--navy);
+  color: var(--text-dim);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.ftab:hover { color: var(--cream); background: var(--navy-light); }
+.ftab.active { background: var(--navy-mid); color: var(--gold); }
+
+.filter-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--gold-border);
+  margin-bottom: 24px;
+}
+.fopt {
+  background: var(--navy);
+  padding: 14px 16px;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+  text-align: left;
+  border: none;
+  width: 100%;
+}
+.fopt:hover { background: var(--navy-light); color: var(--cream); }
+.fopt.selected { background: var(--navy-mid); border-bottom: 2px solid var(--gold); color: var(--gold); }
+
+/* Count Row */
+.count-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.count-preset {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  width: 44px;
+  height: 38px;
+  background: var(--navy);
+  border: 1px solid rgba(245,240,232,0.12);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.count-preset:hover, .count-preset.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+.count-input {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  width: 70px;
+  height: 38px;
+  padding: 0 10px;
+  background: var(--navy);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  text-align: center;
+  outline: none;
+}
+.count-input:focus { border-color: var(--gold); }
+
+.selector-actions { display: flex; gap: 12px; }
+
+/* ── Confirm Box ── */
+.confirm-box {
+  background: var(--navy-mid);
+  border: 1px solid var(--gold-border);
+  padding: 40px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+}
+.confirm-title {
+  font-size: 1.6rem;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+.confirm-msg {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  margin-bottom: 28px;
+}
+.confirm-actions { display: flex; gap: 12px; justify-content: center; }
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 768px) {
+  #appHeader { padding: 0 16px; }
+  .tab-btn { padding: 0 12px; font-size: 0.52rem; }
+  .logo-sub { display: none; }
+
+  .home-hero { padding: 48px 20px 40px; }
+  .home-domains, .home-modes { padding: 40px 20px; }
+  .home-footer { padding: 24px 20px; }
+
+  .hero-title { font-size: 2.2rem; }
+  .hero-stats { flex-wrap: wrap; }
+  .hero-stat { min-width: 100px; }
+
+  .quiz-topbar { padding: 12px 16px; gap: 14px; }
+  .quiz-body { padding: 30px 16px 60px; }
+  .q-text { font-size: 1.1rem; }
+
+  .results-wrap { padding: 40px 16px; }
+  .breakdown-label { width: 120px; font-size: 0.48rem; }
+
+  .chat-layout { padding: 0 16px 20px; }
+  .ref-layout { padding: 32px 16px 60px; }
+  .ref-grid { grid-template-columns: 1fr; }
+  .filter-options { grid-template-columns: 1fr; }
+
+  .selector-box { padding: 32px 20px; }
+  .selector-actions { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .modes-grid { grid-template-columns: 1fr; }
+  .domain-grid { grid-template-columns: 1fr 1fr; }
+  .hero-actions { flex-direction: column; }
+  .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+  .results-actions { flex-direction: column; align-items: stretch; }
+  .results-actions .btn-primary,
+  .results-actions .btn-ghost { text-align: center; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header id="appHeader">
+    <div class="header-left">
+      <a href="#" class="logo" onclick="showView('home'); return false;">
+        <span class="logo-isc">ISC</span>
+        <span class="logo-sep">|</span>
+        <span class="logo-sub">CPA Study Hub</span>
+      </a>
+    </div>
+    <nav class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-view="home"    onclick="showView('home')">Home</button>
+      <button class="tab-btn"        data-view="quiz"    onclick="openSelector()">Quiz</button>
+      <button class="tab-btn"        data-view="chat"    onclick="showView('chat')">Ask AI</button>
+      <button class="tab-btn"        data-view="ref"     onclick="showView('ref')">Reference</button>
+    </nav>
+    <div class="header-right">
+      <div class="score-badge" id="scoreBadge">
+        <span class="score-label">Session</span>
+        <span class="score-value" id="scoreValue">—</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOME VIEW -->
+  <div class="view active" id="view-home">
+    <section class="home-hero">
+      <div class="hero-eyebrow">CPA Exam &middot; ISC Section</div>
+      <h1 class="hero-title">Master <em>Information<br/>Systems &amp; Controls</em></h1>
+      <p class="hero-sub">120 exam-quality practice questions across all 8 ISC domains &mdash; with full explanations, AI-powered tutoring, and a quick-reference guide. Built to help you pass.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openSelector()">Start Practicing &rarr;</button>
+        <button class="btn-ghost"   onclick="showView('ref')">View Reference</button>
+      </div>
+      <div class="hero-stats" id="heroStats"></div>
+    </section>
+    <section class="home-domains">
+      <p class="section-eyebrow">Browse by Domain</p>
+      <div class="domain-grid" id="domainGrid"></div>
+    </section>
+    <section class="home-modes">
+      <p class="section-eyebrow">Study Modes</p>
+      <div class="modes-grid">
+        <div class="mode-card" onclick="openSelector()">
+          <div class="mode-icon">&#127922;</div>
+          <div class="mode-title">Random Quiz</div>
+          <p class="mode-desc">Shuffle questions across all domains for a realistic exam feel.</p>
+        </div>
+        <div class="mode-card" onclick="openSelector('domain')">
+          <div class="mode-icon">&#128218;</div>
+          <div class="mode-title">By Domain</div>
+          <p class="mode-desc">Focus on a weak area &mdash; Cybersecurity, SDLC, SOC Reports, and more.</p>
+        </div>
+        <div class="mode-card" onclick="openSelector('difficulty')">
+          <div class="mode-icon">&#127919;</div>
+          <div class="mode-title">By Difficulty</div>
+          <p class="mode-desc">Target easy, medium, or hard questions to calibrate your prep.</p>
+        </div>
+        <div class="mode-card" onclick="showView('chat')">
+          <div class="mode-icon">&#128172;</div>
+          <div class="mode-title">Ask AI</div>
+          <p class="mode-desc">Get instant explanations on any ISC topic from your AI tutor.</p>
+        </div>
+      </div>
+    </section>
+    <footer class="home-footer">
+      <p>Built by <a href="https://alexmateobot.github.io" target="_blank">Alex S. Gonzalez Mateo</a> &middot; Rutgers Business School &rsquo;27 &middot; Questions based on AICPA ISC Blueprint</p>
+    </footer>
+  </div>
+
+  <!-- QUIZ VIEW -->
+  <div class="view" id="view-quiz">
+    <div class="quiz-topbar">
+      <button class="btn-back" onclick="confirmBack()">&larr; Exit</button>
+      <div class="quiz-progress-wrap">
+        <span class="quiz-meta" id="quizMeta">Question 1 of 10</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+      <div class="quiz-live-score" id="quizLiveScore">0 / 0</div>
+    </div>
+    <div class="quiz-body" id="quizBody"></div>
+  </div>
+
+  <!-- RESULTS VIEW -->
+  <div class="view" id="view-results">
+    <div class="results-wrap">
+      <div class="results-top">
+        <div class="results-eyebrow">Quiz Complete</div>
+        <div class="results-score-ring">
+          <svg viewBox="0 0 120 120" class="ring-svg">
+            <circle cx="60" cy="60" r="52" class="ring-bg"/>
+            <circle cx="60" cy="60" r="52" class="ring-fill" id="ringFill"/>
+          </svg>
+          <div class="ring-label">
+            <span class="ring-pct" id="ringPct">0%</span>
+            <span class="ring-sub">Score</span>
+          </div>
+        </div>
+        <p class="results-msg" id="resultsMsg"></p>
+      </div>
+      <div class="results-stats">
+        <div class="r-stat correct"><div class="r-stat-num" id="rCorrect">0</div><div class="r-stat-lbl">Correct</div></div>
+        <div class="r-stat wrong"><div class="r-stat-num" id="rWrong">0</div><div class="r-stat-lbl">Incorrect</div></div>
+        <div class="r-stat total"><div class="r-stat-num" id="rTotal">0</div><div class="r-stat-lbl">Total</div></div>
+      </div>
+      <div class="results-domain-breakdown" id="domainBreakdown"></div>
+      <div class="results-actions">
+        <button class="btn-primary" onclick="openSelector()">New Quiz &rarr;</button>
+        <button class="btn-ghost"   onclick="reviewMissed()">Review Missed</button>
+        <button class="btn-ghost"   onclick="showView('home')">Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT VIEW -->
+  <div class="view" id="view-chat">
+    <div class="chat-layout">
+      <div class="chat-header">
+        <div>
+          <h2>Ask the <em>ISC Tutor</em></h2>
+          <p class="chat-subtitle">Powered by Claude &middot; Ask anything about ISC topics</p>
+        </div>
+        <button class="btn-ghost-sm" onclick="clearChat()">Clear Chat</button>
+      </div>
+      <div class="chip-bar">
+        <button class="chip" onclick="sendChip('Explain the difference between SOC 1 and SOC 2 reports')">SOC 1 vs SOC 2</button>
+        <button class="chip" onclick="sendChip('What are the five components of the COSO Internal Control Framework?')">COSO Framework</button>
+        <button class="chip" onclick="sendChip('Explain the CIA triad in cybersecurity')">CIA Triad</button>
+        <button class="chip" onclick="sendChip('What is the difference between RTO and RPO in disaster recovery?')">RTO vs RPO</button>
+        <button class="chip" onclick="sendChip('Explain general IT controls versus application controls')">GITCs vs App Controls</button>
+        <button class="chip" onclick="sendChip(&quot;What is Benford&apos;s Law and how is it used in audit analytics?&quot;)">Benford&rsquo;s Law</button>
+        <button class="chip" onclick="sendChip('Explain the SDLC phases and key controls at each stage')">SDLC Controls</button>
+        <button class="chip" onclick="sendChip('What is the Zero Trust security model?')">Zero Trust</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="msg assistant">
+          <div class="msg-avatar">AI</div>
+          <div class="msg-content">
+            <div class="msg-role">ISC Tutor</div>
+            <div class="msg-bubble">
+              <p>Hello! I&rsquo;m your ISC CPA exam tutor. I specialize in all eight ISC domains:</p>
+              <ul>
+                <li><strong>IT Governance &amp; Management</strong> &mdash; COBIT, ITIL, RACI</li>
+                <li><strong>IT Risks &amp; Controls</strong> &mdash; GITCs, COSO, access controls</li>
+                <li><strong>System Development &amp; Maintenance</strong> &mdash; SDLC, Agile, change mgmt</li>
+                <li><strong>Data Management &amp; Analytics</strong> &mdash; DBMS, ETL, data governance</li>
+                <li><strong>Cybersecurity</strong> &mdash; CIA triad, threats, NIST framework</li>
+                <li><strong>Business Continuity &amp; DR</strong> &mdash; RTO, RPO, hot/warm/cold sites</li>
+                <li><strong>Audit Data Analytics</strong> &mdash; Benford&rsquo;s Law, CAATs, continuous audit</li>
+                <li><strong>SOC Reports &amp; Third-Party Risk</strong> &mdash; SOC 1/2/3, CUECs, TPRM</li>
+              </ul>
+              <p>Ask me anything or tap a chip above to get started!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-wrap">
+        <textarea class="chat-input" id="chatInput" placeholder="Ask an ISC question&hellip;" rows="1"
+          onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="chat-send" id="chatSend" onclick="sendChat()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERENCE VIEW -->
+  <div class="view" id="view-ref">
+    <div class="ref-layout">
+      <div class="ref-header">
+        <h2>ISC <em>Reference Guide</em></h2>
+        <p class="ref-subtitle">Key frameworks, formulas, and concepts for the ISC exam</p>
+      </div>
+      <div class="ref-filter-bar">
+        <button class="ref-filter active" onclick="filterRef('all', this)">All Topics</button>
+        <button class="ref-filter" onclick="filterRef('governance', this)">Governance</button>
+        <button class="ref-filter" onclick="filterRef('security', this)">Security</button>
+        <button class="ref-filter" onclick="filterRef('continuity', this)">Continuity</button>
+        <button class="ref-filter" onclick="filterRef('data', this)">Data &amp; Analytics</button>
+        <button class="ref-filter" onclick="filterRef('soc', this)">SOC Reports</button>
+      </div>
+      <div class="ref-grid" id="refGrid"></div>
+    </div>
+  </div>
+
+  <!-- SELECTOR OVERLAY -->
+  <div class="overlay" id="selectorOverlay">
+    <div class="selector-box">
+      <button class="selector-close" onclick="closeSelector()">&#10005;</button>
+      <div class="selector-title">Configure <em>Your Quiz</em></div>
+      <div class="selector-sub">Select focus and number of questions</div>
+      <div class="selector-section-label">Filter By</div>
+      <div class="filter-tabs" id="filterTypeTabs">
+        <button class="ftab active" onclick="setFilterType('all', this)">All Questions</button>
+        <button class="ftab" onclick="setFilterType('domain', this)">Domain</button>
+        <button class="ftab" onclick="setFilterType('difficulty', this)">Difficulty</button>
+      </div>
+      <div id="filterOptions" class="filter-options"></div>
+      <div class="selector-section-label">Number of Questions</div>
+      <div class="count-row">
+        <button class="count-preset" onclick="setCount(10,this)">10</button>
+        <button class="count-preset" onclick="setCount(20,this)">20</button>
+        <button class="count-preset" onclick="setCount(30,this)">30</button>
+        <button class="count-preset" onclick="setCount(50,this)">50</button>
+        <input type="number" class="count-input" id="qCount" value="10" min="5" max="120"/>
+      </div>
+      <div class="selector-actions">
+        <button class="btn-primary" onclick="startQuiz()">Start Quiz &rarr;</button>
+        <button class="btn-ghost"   onclick="closeSelector()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM EXIT OVERLAY -->
+  <div class="overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <div class="confirm-title">Exit Quiz?</div>
+      <p class="confirm-msg">Your progress will be lost.</p>
+      <div class="confirm-actions">
+        <button class="btn-primary" onclick="doBack()">Exit</button>
+        <button class="btn-ghost" onclick="document.getElementById('confirmOverlay').classList.remove('open')">Keep Going</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+const QUESTIONS = [
+  {id:1,domain:"IT Governance & Management",difficulty:"medium",question:`Which framework provides a comprehensive set of IT governance and management best practices and is organized around five domains: Evaluate, Direct, Monitor, Align, Plan and Organize, and Deliver, Service and Support?`,options:["ITIL", "COBIT", "ISO 27001", "NIST Cybersecurity Framework"],answer:1,explanation:`COBIT (Control Objectives for Information and Related Technologies), developed by ISACA, is the leading IT governance framework. COBIT 2019 organizes governance and management objectives into six domains, helping organizations achieve their IT-related goals and manage IT risks.`},
+  {id:2,domain:"IT Governance & Management",difficulty:"easy",question:`The IT governance principle that ensures IT decisions align with business objectives is known as:`,options:["Value delivery", "Strategic alignment", "Risk management", "Resource management"],answer:1,explanation:`Strategic alignment ensures that IT plans, strategies, and operations are aligned with the organization's business objectives and strategies. It is one of the five focus areas of IT governance alongside value delivery, risk management, resource management, and performance measurement.`},
+  {id:3,domain:"IT Governance & Management",difficulty:"hard",question:`Under the RACI model used in IT governance, who is responsible for approving the final deliverable and is ultimately accountable for an IT process?`,options:["Responsible (R)", "Accountable (A)", "Consulted (C)", "Informed (I)"],answer:1,explanation:`In RACI: Accountable (A) is the single person who approves the work and is ultimately answerable for its correctness and completion. Responsible (R) performs the work, Consulted (C) provides input, and Informed (I) is kept up to date. Only one person should be Accountable per task.`},
+  {id:4,domain:"IT Governance & Management",difficulty:"medium",question:`The IT Infrastructure Library (ITIL) is primarily focused on:`,options:["IT security standards", "IT service management best practices", "Software development methodologies", "Network architecture design"],answer:1,explanation:`ITIL (IT Infrastructure Library) is a framework of best practices for IT Service Management (ITSM). It describes processes, procedures, and tasks for delivering and supporting IT services, covering the entire service lifecycle from strategy through design, transition, operation, and continual improvement.`},
+  {id:5,domain:"IT Governance & Management",difficulty:"medium",question:`Which of the following BEST describes the role of a Chief Information Security Officer (CISO)?`,options:["Managing day-to-day IT operations", "Overseeing the organization's information security strategy and program", "Developing all software applications", "Managing the organization's hardware procurement"],answer:1,explanation:`The CISO is an executive responsible for establishing and maintaining the enterprise vision, strategy, and program to ensure information assets and technologies are adequately protected. The CISO typically reports to the CEO or Board and bridges business and technical security concerns.`},
+  {id:6,domain:"IT Risks & Controls",difficulty:"easy",question:`General IT controls (GITCs) are designed to:`,options:["Ensure individual applications process transactions correctly", "Provide the overall control environment supporting reliable IT systems", "Replace manual detective controls", "Test individual user transactions"],answer:1,explanation:`General IT Controls (GITCs) are pervasive controls that affect the overall IT control environment: access controls, change management, computer operations, and program development controls. They support the reliability of application controls and financial reporting systems.`},
+  {id:7,domain:"IT Risks & Controls",difficulty:"medium",question:`Which type of IT control prevents an error or irregularity from occurring?`,options:["Detective control", "Corrective control", "Preventive control", "Compensating control"],answer:2,explanation:`Preventive controls are designed to stop errors or irregularities before they occur (e.g., input validation, access controls, segregation of duties). Detective controls identify problems after they occur (e.g., reconciliations, audit logs). Corrective controls fix identified problems.`},
+  {id:8,domain:"IT Risks & Controls",difficulty:"medium",question:`Application controls are designed to ensure:`,options:["The entire IT environment is secure", "Completeness, accuracy, and validity of data within specific applications", "Physical security of servers", "Network availability"],answer:1,explanation:`Application controls are specific to individual applications and ensure that transactions are completely, accurately, and validly processed. They include input controls (validation), processing controls (edit checks), and output controls (reconciliations, exception reports).`},
+  {id:9,domain:"IT Risks & Controls",difficulty:"hard",question:`An organization's IT risk assessment should prioritize risks based on:`,options:["The cost of the IT asset only", "The age of the system", "The likelihood of occurrence and potential impact", "The number of users affected"],answer:2,explanation:`IT risk assessments prioritize risks using a risk matrix: Risk = Likelihood × Impact. High-likelihood, high-impact risks receive the most attention and resources. This ensures rational allocation of control resources based on the risk profile.`},
+  {id:10,domain:"IT Risks & Controls",difficulty:"medium",question:`Segregation of duties in IT environments requires that which of the following functions be performed by different individuals?`,options:["Programming and testing", "Authorization, recordkeeping, and custody", "Development and documentation", "Backup and recovery"],answer:1,explanation:`Classic segregation of duties separates: (1) Authorization (approving transactions), (2) Recordkeeping (maintaining records), and (3) Custody (physical control of assets). In IT, this means separating development, operations, and security functions to prevent fraud and errors.`},
+  {id:11,domain:"IT Risks & Controls",difficulty:"easy",question:`Access controls in IT systems are classified as which type of control?`,options:["Corrective", "Preventive and detective", "Compensating only", "Physical only"],answer:1,explanation:`Access controls serve dual roles: Preventive (blocking unauthorized access before it occurs through authentication and authorization) and Detective (logging and monitoring access attempts to identify unauthorized access after the fact).`},
+  {id:12,domain:"IT Risks & Controls",difficulty:"hard",question:`Which control framework is specifically designed for internal controls over financial reporting and is referenced by the SEC for Sarbanes-Oxley compliance?`,options:["COBIT", "COSO Internal Control \u2014 Integrated Framework", "ISO 27001", "NIST SP 800-53"],answer:1,explanation:`The COSO (Committee of Sponsoring Organizations) Internal Control — Integrated Framework is the predominant framework for designing, implementing, and evaluating internal controls over financial reporting. It defines the five components: Control Environment, Risk Assessment, Control Activities, Information & Communication, and Monitoring.`},
+  {id:13,domain:"IT Risks & Controls",difficulty:"medium",question:`A compensating control is used when:`,options:["A primary control is more expensive than the risk", "A primary control cannot be implemented and an alternative control reduces the same risk", "Management overrides existing controls", "Controls are tested annually"],answer:1,explanation:`A compensating control is an alternative control that provides equivalent assurance when the primary (preferred) control is not feasible. For example, enhanced monitoring may compensate for an inability to fully segregate duties in a small organization.`},
+  {id:14,domain:"IT Risks & Controls",difficulty:"medium",question:`Which of the following is an example of a logical access control?`,options:["Security guard at the server room", "Password and multi-factor authentication", "Cable locks on laptops", "Biometric door access"],answer:1,explanation:`Logical access controls restrict access to systems and data electronically: passwords, PINs, MFA, role-based permissions, and encryption. Physical access controls restrict physical entry (guards, locks, biometrics for doors). Both are important layers in defense-in-depth.`},
+  {id:15,domain:"IT Risks & Controls",difficulty:"easy",question:`The principle of least privilege states that users should be granted:`,options:["Administrator access by default", "The minimum access rights necessary to perform their job functions", "Access to all systems they may ever need", "Access based on their seniority"],answer:1,explanation:`The principle of least privilege (PoLP) is a fundamental security concept: users, programs, and systems should have only the minimum access rights necessary to perform their legitimate functions. This limits the damage from accidents, errors, and unauthorized use.`},
+  {id:16,domain:"System Development & Maintenance",difficulty:"medium",question:`The Systems Development Life Cycle (SDLC) phases in the correct order are:`,options:["Design, Planning, Analysis, Implementation, Testing, Maintenance", "Planning, Analysis, Design, Implementation, Testing, Maintenance", "Analysis, Planning, Design, Testing, Implementation, Maintenance", "Planning, Design, Analysis, Implementation, Maintenance, Testing"],answer:1,explanation:`The traditional waterfall SDLC follows: (1) Planning, (2) Analysis/Requirements, (3) Design, (4) Implementation/Development, (5) Testing, (6) Deployment, (7) Maintenance. Each phase has defined deliverables and sign-offs before proceeding to the next.`},
+  {id:17,domain:"System Development & Maintenance",difficulty:"medium",question:`In Agile software development, a 'sprint' refers to:`,options:["A security vulnerability scan", "A short, fixed-length iteration (typically 2\u20134 weeks) to complete a defined set of work", "A full system deployment cycle", "A user acceptance testing phase"],answer:1,explanation:`In Agile/Scrum, a sprint is a time-boxed iteration (usually 1–4 weeks) during which a cross-functional team completes a set of work items from the product backlog. Each sprint results in a potentially shippable product increment.`},
+  {id:18,domain:"System Development & Maintenance",difficulty:"hard",question:`Change management controls in IT are primarily designed to:`,options:["Prevent all changes to production systems", "Ensure changes are properly authorized, tested, and documented before implementation", "Allow developers direct access to production environments", "Accelerate software releases"],answer:1,explanation:`IT change management controls ensure that changes to systems and infrastructure are authorized (by appropriate management), tested (in a non-production environment), documented, and follow a defined process. This prevents unauthorized changes and protects system integrity and availability.`},
+  {id:19,domain:"System Development & Maintenance",difficulty:"medium",question:`User Acceptance Testing (UAT) is performed by:`,options:["The development team", "End users and business stakeholders to validate system meets requirements", "The IT security team", "External auditors"],answer:1,explanation:`UAT is the final testing phase where actual end users test the system against business requirements to confirm it is ready for production. It validates that the system meets business needs and is performed before go-live. It differs from technical testing done by developers.`},
+  {id:20,domain:"System Development & Maintenance",difficulty:"hard",question:`Which of the following BEST describes a rollback plan in system development?`,options:["A plan to add new features after deployment", "A documented procedure to revert to the prior system state if a deployment fails", "A plan to train users on the new system", "A backup of the project documentation"],answer:1,explanation:`A rollback plan (also called a back-out plan) documents the steps to restore the previous system state if a deployment fails or causes unforeseen problems. It is a required component of change management and ensures business continuity if an implementation goes wrong.`},
+  {id:21,domain:"System Development & Maintenance",difficulty:"medium",question:`Which system implementation approach involves running the old and new systems simultaneously for a period of time?`,options:["Direct cutover (big bang)", "Parallel implementation", "Phased implementation", "Pilot implementation"],answer:1,explanation:`Parallel implementation runs both old and new systems simultaneously, allowing comparison of outputs. It is the safest approach but most expensive (double resources). Direct cutover is riskiest but cheapest. Phased and pilot implementations gradually roll out to subsets of users or functions.`},
+  {id:22,domain:"System Development & Maintenance",difficulty:"medium",question:`Program change controls should require that developers:`,options:["Have direct write access to production environments", "Cannot promote their own code changes to the production environment", "Test all changes in the production environment first", "Document changes only after implementation"],answer:1,explanation:`A critical program change control is that developers should NOT be able to migrate their own code to production. A separate operations or release management function should promote tested, approved changes. This prevents unauthorized or untested changes from entering production.`},
+  {id:23,domain:"Data Management & Analytics",difficulty:"easy",question:`A database management system (DBMS) is responsible for:`,options:["Managing only backup and recovery", "Organizing, storing, retrieving, and managing data efficiently", "Managing user authentication only", "Providing network connectivity"],answer:1,explanation:`A DBMS provides a systematic way to create, retrieve, update, and manage data. Key functions include: data storage management, data integrity enforcement, query processing, transaction management, access control, and backup/recovery.`},
+  {id:24,domain:"Data Management & Analytics",difficulty:"medium",question:`Data integrity ensures that data is:`,options:["Accessible only to authorized users", "Accurate, complete, and consistent throughout its lifecycle", "Encrypted during transmission", "Backed up daily"],answer:1,explanation:`Data integrity means data is accurate (correct values), complete (no missing records), and consistent (same data across systems). It is maintained through input validation, referential integrity constraints, transaction controls (ACID properties), and data quality processes.`},
+  {id:25,domain:"Data Management & Analytics",difficulty:"hard",question:`ACID properties in database transactions stand for:`,options:["Authorization, Confidentiality, Integrity, Durability", "Atomicity, Consistency, Isolation, Durability", "Access, Control, Integrity, Delivery", "Availability, Compliance, Integrity, Documentation"],answer:1,explanation:`ACID properties ensure reliable database transactions: Atomicity (all-or-nothing execution), Consistency (database remains in a valid state), Isolation (concurrent transactions don't interfere), and Durability (committed transactions persist even through failures). These are fundamental to data integrity.`},
+  {id:26,domain:"Data Management & Analytics",difficulty:"medium",question:`A data warehouse differs from a transactional database primarily because it is designed for:`,options:["Real-time transaction processing", "Analytical reporting and historical data analysis", "Day-to-day operational use", "Storing documents and files"],answer:1,explanation:`A data warehouse is optimized for analytical queries (OLAP) and historical reporting. It aggregates data from multiple source systems, is typically not updated in real time, and uses denormalized schemas (star/snowflake) for query performance. OLTP databases handle day-to-day transactional operations.`},
+  {id:27,domain:"Data Management & Analytics",difficulty:"medium",question:`Master data management (MDM) is designed to:`,options:["Back up all organizational data", "Provide a single, authoritative source of key business data (customers, products, vendors)", "Manage employee access rights", "Archive historical transaction data"],answer:1,explanation:`Master Data Management (MDM) creates and maintains a single authoritative version of key business entities (customers, vendors, products, employees) across the organization. This eliminates data inconsistencies and duplication, supporting accurate reporting and decision-making.`},
+  {id:28,domain:"Data Management & Analytics",difficulty:"hard",question:`Which of the following best describes ETL in the context of data analytics?`,options:["Encrypt, Transfer, Log", "Extract, Transform, Load \u2014 moving data from source systems to analytical repositories", "Evaluate, Test, Launch", "External Transfer Language"],answer:1,explanation:`ETL (Extract, Transform, Load) is the process of: (1) Extracting data from source systems, (2) Transforming it (cleaning, standardizing, aggregating, applying business rules), and (3) Loading it into a target system (data warehouse, data mart). It is fundamental to business intelligence and analytics.`},
+  {id:29,domain:"Data Management & Analytics",difficulty:"medium",question:`Data governance establishes:`,options:["The technical architecture for data storage", "Policies, roles, and responsibilities for managing data as a corporate asset", "The encryption standards for data at rest", "The backup schedule for all databases"],answer:1,explanation:`Data governance is a framework of policies, standards, and processes that defines who can take what actions with what data, under what circumstances. It assigns data stewardship roles, establishes data quality standards, and ensures compliance with regulations like GDPR and CCPA.`},
+  {id:30,domain:"Data Management & Analytics",difficulty:"hard",question:`In the context of big data, which characteristic refers to the speed at which data is generated and must be processed?`,options:["Volume", "Variety", "Velocity", "Veracity"],answer:2,explanation:`The 'V's of Big Data: Volume (massive amounts), Velocity (high speed of generation and processing — e.g., real-time streaming), Variety (structured, unstructured, semi-structured formats), Veracity (data quality/trustworthiness), and Value (business benefit). Velocity is critical for real-time analytics.`},
+  {id:31,domain:"Cybersecurity",difficulty:"easy",question:`The CIA triad in cybersecurity stands for:`,options:["Control, Integrity, Availability", "Confidentiality, Integrity, Availability", "Compliance, Identification, Authorization", "Confidentiality, Identification, Access"],answer:1,explanation:`The CIA Triad is the foundation of information security: Confidentiality (information is accessible only to authorized parties), Integrity (information is accurate and unaltered), and Availability (systems and data are accessible when needed by authorized users).`},
+  {id:32,domain:"Cybersecurity",difficulty:"medium",question:`A phishing attack is best described as:`,options:["An attack that exploits software vulnerabilities", "A social engineering attack using deceptive emails or messages to steal credentials or data", "A denial-of-service attack", "An attack that intercepts network traffic"],answer:1,explanation:`Phishing uses deceptive communications (emails, texts, fake websites) impersonating legitimate entities to trick users into revealing credentials, clicking malicious links, or downloading malware. It is the most common form of social engineering and the leading cause of data breaches.`},
+  {id:33,domain:"Cybersecurity",difficulty:"medium",question:`Multi-factor authentication (MFA) requires users to provide:`,options:["Two passwords", "Two or more verification factors from different categories (something you know, have, or are)", "A username and email address", "Biometric data only"],answer:1,explanation:`MFA requires ≥2 factors from different categories: (1) Something you know (password, PIN), (2) Something you have (phone, hardware token, smart card), (3) Something you are (biometrics — fingerprint, face). This dramatically reduces the risk of unauthorized access even if a password is compromised.`},
+  {id:34,domain:"Cybersecurity",difficulty:"hard",question:`Ransomware attacks primarily threaten which component of the CIA triad?`,options:["Confidentiality only", "Integrity only", "Availability (and potentially confidentiality)", "Authentication only"],answer:2,explanation:`Ransomware encrypts an organization's data, making it unavailable (threatening Availability) until a ransom is paid. Modern double-extortion ransomware also exfiltrates data before encrypting it, threatening Confidentiality as well. Recovery requires either paying ransom or restoring from backups.`},
+  {id:35,domain:"Cybersecurity",difficulty:"medium",question:`A firewall is classified as which type of network security control?`,options:["Detective and corrective", "Preventive \u2014 it blocks unauthorized network traffic based on rules", "Corrective only", "Compensating only"],answer:1,explanation:`Firewalls are primarily preventive controls — they enforce access control rules to block unauthorized network traffic before it reaches systems. Next-generation firewalls (NGFWs) also include detection capabilities (intrusion detection, deep packet inspection), adding a detective layer.`},
+  {id:36,domain:"Cybersecurity",difficulty:"hard",question:`Encryption at rest protects data when:`,options:["Data is being transmitted over a network", "Data is stored on disk, databases, or backup media", "Data is being processed in memory", "Data is being accessed by users"],answer:1,explanation:`Encryption at rest protects stored data (on hard drives, SSDs, databases, backups, cloud storage) from unauthorized access if the physical media is stolen or improperly accessed. Encryption in transit (TLS/SSL) protects data moving over networks.`},
+  {id:37,domain:"Cybersecurity",difficulty:"medium",question:`A penetration test (pen test) is designed to:`,options:["Monitor network traffic continuously", "Simulate real-world attacks to identify exploitable vulnerabilities before malicious actors do", "Install security patches automatically", "Train employees on security awareness"],answer:1,explanation:`Penetration testing involves authorized, simulated attacks on systems to identify vulnerabilities that could be exploited by actual attackers. Results are used to prioritize remediation. Pen tests go beyond vulnerability scanning by actively attempting to exploit weaknesses.`},
+  {id:38,domain:"Cybersecurity",difficulty:"hard",question:`The Zero Trust security model operates on the principle of:`,options:["Trust all internal network traffic by default", "Never trust, always verify \u2014 no user or device is trusted by default, even inside the network", "Trust verified external users only", "Trust all users after initial authentication"],answer:1,explanation:`Zero Trust assumes breach and requires strict verification for every user and device, regardless of network location. Key principles: verify explicitly (always authenticate), use least privilege access, and assume breach (minimize blast radius). It replaces the outdated castle-and-moat model.`},
+  {id:39,domain:"Cybersecurity",difficulty:"medium",question:`What is a SQL injection attack?`,options:["A physical attack on database servers", "An attack that inserts malicious SQL code into input fields to manipulate or access databases", "A denial-of-service attack targeting databases", "An attack that steals database administrator credentials"],answer:1,explanation:`SQL injection occurs when malicious SQL statements are inserted into application input fields that are passed to a database. This can allow attackers to read, modify, or delete data, execute administrative operations, or bypass authentication. Prevention: parameterized queries, input validation, and prepared statements.`},
+  {id:40,domain:"Cybersecurity",difficulty:"medium",question:`An Intrusion Detection System (IDS) differs from an Intrusion Prevention System (IPS) in that an IDS:`,options:["Blocks attacks automatically", "Only monitors and alerts on suspicious activity without blocking", "Encrypts all network traffic", "Manages user authentication"],answer:1,explanation:`IDS monitors network/system activity and generates alerts (detective control). IPS goes further by actively blocking or preventing detected threats in real time (preventive control). IDS = detect and notify; IPS = detect and act. Both use signature-based and anomaly-based detection.`},
+  {id:41,domain:"Cybersecurity",difficulty:"hard",question:`Which type of malware disguises itself as legitimate software but executes malicious actions when run?`,options:["Worm", "Trojan horse", "Rootkit", "Adware"],answer:1,explanation:`A Trojan horse (Trojan) is malware disguised as legitimate software. Unlike viruses/worms, Trojans don't self-replicate but rely on users to execute them. Worms self-replicate across networks. Rootkits hide malware presence. Adware displays unwanted advertising.`},
+  {id:42,domain:"Cybersecurity",difficulty:"medium",question:`A Security Information and Event Management (SIEM) system is used to:`,options:["Encrypt sensitive data", "Collect, correlate, and analyze security log data from across the organization in real time", "Manage user passwords", "Deploy security patches"],answer:1,explanation:`SIEM systems aggregate and analyze security logs from diverse sources (firewalls, servers, applications, endpoints) to detect threats, generate alerts, and support incident response and compliance reporting. They provide centralized visibility into security events across the enterprise.`},
+  {id:43,domain:"Business Continuity & Disaster Recovery",difficulty:"easy",question:`The Recovery Time Objective (RTO) defines:`,options:["The maximum amount of data loss an organization can tolerate", "The maximum time allowed to restore systems and resume operations after a disruption", "The time required to back up all data", "The cost of recovery operations"],answer:1,explanation:`RTO is the maximum acceptable length of time that a system can be offline after a failure before the business impact becomes unacceptable. It drives the design of recovery solutions. A low RTO (e.g., 1 hour) requires more expensive, faster recovery solutions.`},
+  {id:44,domain:"Business Continuity & Disaster Recovery",difficulty:"easy",question:`The Recovery Point Objective (RPO) defines:`,options:["The time to restore systems", "The maximum amount of data loss an organization can tolerate (measured in time)", "The location of the backup data center", "The cost of data recovery"],answer:1,explanation:`RPO defines the maximum age of data that must be recovered — in other words, how much data (in time) the organization can afford to lose. An RPO of 4 hours means backups must occur at least every 4 hours. Low RPO requires more frequent backups and higher cost.`},
+  {id:45,domain:"Business Continuity & Disaster Recovery",difficulty:"hard",question:`Which disaster recovery site type allows an organization to recover most quickly because it is fully equipped and operational?`,options:["Cold site", "Warm site", "Hot site", "Mobile site"],answer:2,explanation:`A hot site is a fully equipped, operational backup facility with current data (near real-time replication). Recovery time is minutes to hours but cost is highest. Warm site: partially configured, hours to days recovery. Cold site: empty facility, days to weeks recovery. Choose based on RTO requirements.`},
+  {id:46,domain:"Business Continuity & Disaster Recovery",difficulty:"medium",question:`A Business Impact Analysis (BIA) identifies:`,options:["The cost of cybersecurity tools", "Critical business processes, their dependencies, and the impact of disruption over time", "The number of employees needed during a disaster", "The insurance coverage required"],answer:1,explanation:`A BIA is the foundation of business continuity planning. It identifies: (1) Critical business functions, (2) Maximum Tolerable Downtime (MTD), (3) RTO and RPO requirements, (4) Resource dependencies, and (5) Financial and operational impact of disruptions. It determines which processes get priority recovery resources.`},
+  {id:47,domain:"Business Continuity & Disaster Recovery",difficulty:"medium",question:`The primary purpose of testing a disaster recovery plan is to:`,options:["Satisfy auditor requirements", "Validate that recovery procedures work as expected and can meet RTO/RPO objectives", "Train new IT staff", "Document the plan for insurance purposes"],answer:1,explanation:`DR plan testing validates that recovery procedures actually work, personnel understand their roles, RTO/RPO objectives can be met, and dependencies are accounted for. Plans are often found to have gaps during testing that would have caused failures in an actual disaster. Testing types range from tabletop exercises to full failover tests.`},
+  {id:48,domain:"Business Continuity & Disaster Recovery",difficulty:"hard",question:`The 3-2-1 backup rule states that organizations should maintain:`,options:["3 data centers, 2 backup tapes, 1 cloud copy", "3 copies of data, on 2 different media types, with 1 copy stored offsite", "3 daily backups, 2 weekly backups, 1 monthly backup", "3 recovery servers, 2 network paths, 1 hot site"],answer:1,explanation:`The 3-2-1 backup rule: Keep 3 copies of data (1 primary + 2 backups), store on 2 different media types (e.g., disk + tape), with 1 copy stored offsite (or in the cloud). This protects against hardware failure, ransomware, and site-level disasters.`},
+  {id:49,domain:"Business Continuity & Disaster Recovery",difficulty:"medium",question:`A tabletop exercise in business continuity planning involves:`,options:["Physically failing over to the backup data center", "A discussion-based simulation where team members walk through response procedures", "Full system shutdown and recovery testing", "Installing backup hardware"],answer:1,explanation:`A tabletop exercise is a discussion-based test where participants walk through a simulated disaster scenario to evaluate their response plans without disrupting operations. It is low-cost, low-risk, and excellent for identifying plan gaps and training personnel.`},
+  {id:50,domain:"Business Continuity & Disaster Recovery",difficulty:"medium",question:`Which of the following is typically included in a Business Continuity Plan (BCP)?`,options:["Technical architecture diagrams only", "Recovery procedures, communication plans, roles/responsibilities, and alternate work arrangements", "Employee performance reviews", "Annual IT budget details"],answer:1,explanation:`A BCP documents how an organization will continue operating during and after a disruption. Key components: recovery procedures for critical processes, communication plans (internal/external), roles and responsibilities, alternate work arrangements, vendor contacts, and training requirements.`},
+  {id:51,domain:"Audit Data Analytics",difficulty:"easy",question:`Audit data analytics (ADA) allows auditors to:`,options:["Replace all manual audit procedures", "Analyze entire populations of data rather than relying solely on sampling", "Automate the audit opinion", "Eliminate the need for professional judgment"],answer:1,explanation:`ADA enables auditors to test 100% of transactions (entire population) rather than samples, significantly increasing the ability to detect anomalies, fraud indicators, and control failures. This improves audit quality and efficiency while providing deeper insights.`},
+  {id:52,domain:"Audit Data Analytics",difficulty:"medium",question:`Benford's Law is used in audit analytics to:`,options:["Calculate sample sizes", "Detect potential fraud by analyzing the frequency distribution of leading digits in financial data", "Encrypt audit data", "Determine materiality thresholds"],answer:1,explanation:`Benford's Law predicts that in naturally occurring datasets, digit 1 appears as the leading digit ~30% of the time, digit 2 ~18%, and so on. Data that deviates significantly from this distribution may indicate manipulation or fraud, particularly in accounts payable or journal entries.`},
+  {id:53,domain:"Audit Data Analytics",difficulty:"medium",question:`Which of the following is an example of using data analytics to test journal entries for fraud risk?`,options:["Reviewing financial statements for presentation", "Identifying journal entries posted on weekends, holidays, or outside normal business hours", "Confirming account balances with banks", "Testing physical inventory counts"],answer:1,explanation:`Analyzing journal entries for unusual patterns (posted at odd times, by unusual users, with round numbers, or with rare account combinations) is a key fraud detection technique. AS 2401 requires auditors to test journal entries for fraud risk, and data analytics makes testing 100% of entries feasible.`},
+  {id:54,domain:"Audit Data Analytics",difficulty:"hard",question:`Continuous auditing differs from traditional auditing primarily because it:`,options:["Uses larger sample sizes", "Performs automated, ongoing monitoring of transactions and controls in real or near-real time", "Requires more auditors", "Is only performed by external auditors"],answer:1,explanation:`Continuous auditing uses automated tools to monitor transactions, controls, and risks on an ongoing basis (daily, weekly) rather than annually. It provides timely identification of issues, reduces audit cycles, and enables organizations to respond to problems as they occur rather than months later.`},
+  {id:55,domain:"Audit Data Analytics",difficulty:"medium",question:`Data visualization tools help auditors primarily by:`,options:["Replacing written audit reports", "Making complex data patterns, trends, and anomalies easier to identify and communicate", "Encrypting sensitive audit data", "Automating the preparation of financial statements"],answer:1,explanation:`Data visualization (charts, heat maps, scatter plots, dashboards) transforms complex datasets into visual formats that make patterns, outliers, and trends immediately apparent. This helps auditors quickly identify areas requiring further investigation and communicate findings clearly to stakeholders.`},
+  {id:56,domain:"Audit Data Analytics",difficulty:"hard",question:`Which of the following audit data analytics procedures would BEST test for duplicate payments in accounts payable?`,options:["Comparing vendor balances to prior year", "Matching payments by invoice number, amount, vendor, and date to identify duplicates", "Confirming balances directly with vendors", "Reviewing the cash disbursements journal manually"],answer:1,explanation:`Duplicate payment testing uses data matching to identify invoices/payments with identical or near-identical attributes (same vendor, amount, invoice number, date). Fuzzy matching can also detect near-duplicates with slight variations — a common accounts payable fraud technique.`},
+  {id:57,domain:"Audit Data Analytics",difficulty:"medium",question:`In audit data analytics, stratification involves:`,options:["Encrypting audit data for security", "Dividing a population into subgroups based on characteristics (e.g., amount) to focus testing", "Selecting a random sample from the entire population", "Sorting data alphabetically"],answer:1,explanation:`Stratification divides a population into homogeneous subgroups (strata) so auditors can apply different testing approaches to each. For example, high-value transactions (>$1M) might receive 100% testing while lower-value items are sampled. This improves audit efficiency and effectiveness.`},
+  {id:58,domain:"SOC Reports & Third-Party Risk",difficulty:"easy",question:`A SOC 1 report provides assurance over a service organization's controls that are relevant to:`,options:["Cybersecurity", "User entities' internal control over financial reporting (ICFR)", "Availability of cloud services", "Data privacy compliance"],answer:1,explanation:`SOC 1 (SSAE 18) reports address controls at a service organization that are relevant to user entities' internal control over financial reporting. They are used by auditors of companies that outsource processes affecting financial data (e.g., payroll processing, loan servicing).`},
+  {id:59,domain:"SOC Reports & Third-Party Risk",difficulty:"medium",question:`The difference between a SOC 2 Type 1 and Type 2 report is that a Type 2 report:`,options:["Covers more Trust Service Criteria", "Covers the design AND operating effectiveness of controls over a period of time (typically 6\u201312 months)", "Is only for public companies", "Is performed by a different type of auditor"],answer:1,explanation:`SOC 2 Type 1: Tests whether controls are suitably designed at a point in time. Type 2: Tests both the design AND operating effectiveness over a period (typically 6–12 months). Type 2 provides higher assurance and is more valuable to user organizations and their auditors.`},
+  {id:60,domain:"SOC Reports & Third-Party Risk",difficulty:"medium",question:`SOC 2 reports are based on which framework of criteria?`,options:["COSO Internal Control Framework", "AICPA Trust Services Criteria (TSC)", "ISO 27001", "NIST Cybersecurity Framework"],answer:1,explanation:`SOC 2 reports use the AICPA Trust Services Criteria (TSC), which covers five categories: Security (required), Availability, Processing Integrity, Confidentiality, and Privacy. Organizations select which criteria are relevant to their services.`},
+  {id:61,domain:"SOC Reports & Third-Party Risk",difficulty:"hard",question:`When a company uses a cloud payroll processor, the auditor of the company should:`,options:["Ignore the cloud provider's controls", "Obtain and review the payroll processor's SOC 1 report to understand relevant controls", "Audit the cloud provider directly", "Require the company to bring payroll in-house"],answer:1,explanation:`When an entity uses a service organization for processes relevant to financial reporting, its auditor must understand the service organization's controls. A SOC 1 Type 2 report from the service organization's auditor provides this assurance without the user auditor auditing the service organization directly.`},
+  {id:62,domain:"SOC Reports & Third-Party Risk",difficulty:"medium",question:`Complementary User Entity Controls (CUECs) in a SOC report refer to:`,options:["Controls performed by the service organization on behalf of users", "Controls that user entities must implement for the service organization's controls to be effective", "Optional controls users can choose to implement", "Controls performed by external auditors"],answer:1,explanation:`CUECs are controls that the service organization assumes user entities will implement for the overall control environment to work effectively. User entity auditors must verify that clients have implemented these controls. Failure to implement CUECs may leave gaps in the control environment.`},
+  {id:63,domain:"SOC Reports & Third-Party Risk",difficulty:"hard",question:`Third-party risk management (TPRM) is important because:`,options:["All vendors require annual audits", "Organizations inherit risk from vendors and service providers who access their data or systems", "Regulators require vendor payments to be audited", "Third parties always have better security than internal teams"],answer:1,explanation:`Organizations are increasingly dependent on third parties (cloud providers, vendors, contractors) who may access sensitive data or critical systems. A vendor's security failure can create risk for the organization (data breach, operational disruption). TPRM programs assess and monitor vendor risk throughout the relationship lifecycle.`},
+  {id:64,domain:"SOC Reports & Third-Party Risk",difficulty:"medium",question:`Which SOC report is specifically designed to report on cybersecurity risk management programs?`,options:["SOC 1", "SOC 2", "SOC 3", "SOC for Cybersecurity"],answer:3,explanation:`The AICPA's SOC for Cybersecurity is an examination engagement that reports on whether an organization's cybersecurity risk management program achieves its objectives. It uses the AICPA's Description Criteria and Control Criteria and is intended for a general audience (unlike SOC 2, which is restricted).`},
+  {id:65,domain:"IT Governance & Management",difficulty:"hard",question:`IT Key Performance Indicators (KPIs) are used to:`,options:["Set IT budgets", "Measure the effectiveness of IT processes and services against defined targets", "Hire IT personnel", "Design network architecture"],answer:1,explanation:`KPIs are quantifiable metrics that measure how effectively an organization is achieving its IT objectives. Examples: system uptime %, incident resolution time, patch compliance rate, and user satisfaction score. KPIs enable management to monitor performance and drive continuous improvement.`},
+  {id:66,domain:"IT Risks & Controls",difficulty:"hard",question:`IT General Controls testing is important in a financial statement audit because:`,options:["They are required by GAAP", "Effective GITCs support the reliability of application controls that process financial data", "They replace substantive testing entirely", "They are required by all SOC reports"],answer:1,explanation:`If GITCs are ineffective (e.g., poor access controls, lack of change management), the application controls that rely on the IT environment may also be unreliable. Auditors test GITCs to determine how much reliance can be placed on automated application controls, affecting the nature, timing, and extent of substantive procedures.`},
+  {id:67,domain:"System Development & Maintenance",difficulty:"medium",question:`DevSecOps integrates security into the software development process by:`,options:["Performing security testing only at the end of development", "Embedding security practices throughout the entire development pipeline (shift-left security)", "Outsourcing all security to a third party", "Replacing DevOps with a separate security team"],answer:1,explanation:`DevSecOps 'shifts security left' by integrating security practices from the earliest stages of development (requirements, design, coding) rather than adding it at the end. This includes automated security testing in CI/CD pipelines, security code reviews, and developer security training.`},
+  {id:68,domain:"Data Management & Analytics",difficulty:"medium",question:`Data masking is primarily used to:`,options:["Encrypt data in transit", "Protect sensitive data by replacing it with realistic but fictitious values in non-production environments", "Compress data for storage efficiency", "Archive historical data"],answer:1,explanation:`Data masking replaces sensitive data (SSNs, credit card numbers, medical records) with realistic but fake values for use in development, testing, and training environments. This protects privacy and ensures compliance (GDPR, HIPAA) while allowing realistic testing without exposing real data.`},
+  {id:69,domain:"Cybersecurity",difficulty:"hard",question:`An Advanced Persistent Threat (APT) is characterized by:`,options:["A quick, automated attack", "A sophisticated, long-term attack by a well-resourced adversary who maintains stealthy access", "A phishing campaign targeting employees", "A denial of service attack"],answer:1,explanation:`APTs are sophisticated, targeted attacks — often by nation-state actors or organized criminal groups — that gain unauthorized access and maintain it covertly for extended periods (months or years) to steal data, conduct espionage, or position for future attacks. Detection requires advanced security monitoring.`},
+  {id:70,domain:"Business Continuity & Disaster Recovery",difficulty:"hard",question:`Maximum Tolerable Downtime (MTD) is defined as:`,options:["The time needed to complete a backup", "The longest time a business process can be unavailable before causing unacceptable harm to the organization", "The time to recover data from backups", "The duration of a disaster recovery test"],answer:1,explanation:`MTD (sometimes called Maximum Tolerable Period of Disruption, MTPD) represents the longest an organization can survive without a critical process before consequences become catastrophic (regulatory, financial, reputational). MTD drives RTO: RTO must always be less than MTD.`},
+  {id:71,domain:"IT Governance & Management",difficulty:"medium",question:`Which of the following BEST describes an IT steering committee?`,options:["A group that writes software code", "A cross-functional governance body that oversees IT strategy, priorities, and investments", "A team that manages daily IT operations", "An external audit committee focused on IT"],answer:1,explanation:`An IT steering committee is a senior leadership group (typically including executives from business and IT) that provides governance over IT investments, strategy alignment, project prioritization, and resource allocation. It bridges business needs and IT capabilities.`},
+  {id:72,domain:"IT Risks & Controls",difficulty:"medium",question:`Privileged access management (PAM) controls are designed to:`,options:["Provide all IT staff with administrative access", "Manage, monitor, and control access for accounts with elevated privileges (e.g., system admins)", "Enable remote work for employees", "Manage user password resets"],answer:1,explanation:`PAM solutions manage and secure privileged accounts (admins, root accounts, service accounts) which pose the highest risk if compromised. PAM includes: just-in-time access, session recording, credential vaulting, and least privilege enforcement for high-risk accounts.`},
+  {id:73,domain:"System Development & Maintenance",difficulty:"hard",question:`Version control systems (e.g., Git) serve which key purpose in software development?`,options:["Testing application performance", "Tracking changes to source code, enabling collaboration and rollback to prior versions", "Deploying applications to production", "Managing user access to applications"],answer:1,explanation:`Version control systems track every change to source code, who made it, and when. They enable teams to collaborate without overwriting each other's work, create branches for new features, review changes before merging, and roll back to any prior state. Git is the industry-standard version control system.`},
+  {id:74,domain:"Audit Data Analytics",difficulty:"hard",question:`Machine learning in audit analytics can be used to:`,options:["Replace auditor professional judgment entirely", "Identify complex patterns and anomalies in large datasets that are difficult to detect through traditional methods", "Generate the audit opinion", "Replace the need for internal controls"],answer:1,explanation:`Machine learning models can analyze vast datasets to detect anomalous patterns, predict risk areas, identify outliers, and flag suspicious transactions. Applications include fraud detection, going concern prediction, and risk scoring. Human judgment remains essential for interpreting results and making audit decisions.`},
+  {id:75,domain:"SOC Reports & Third-Party Risk",difficulty:"medium",question:`A SOC 3 report differs from a SOC 2 report primarily in that a SOC 3 report:`,options:["Covers more security criteria", "Is a general-use report that can be freely distributed (unlike the restricted SOC 2)", "Includes more detailed testing information", "Is only for financial institutions"],answer:1,explanation:`SOC 3 covers the same Trust Services Criteria as SOC 2 but omits detailed descriptions of tests and results. Because SOC 3 contains less sensitive detail, it can be freely distributed and posted publicly (e.g., on a vendor's website), making it useful for marketing trust to a broad audience.`},
+  {id:76,domain:"Cybersecurity",difficulty:"medium",question:`Public Key Infrastructure (PKI) is used to:`,options:["Manage network routers", "Manage digital certificates and encryption keys that enable secure communications", "Store passwords securely", "Monitor network traffic"],answer:1,explanation:`PKI is the framework of hardware, software, policies, and procedures for creating, managing, distributing, and revoking digital certificates. It enables: SSL/TLS (website security), digital signatures (document integrity), and encrypted email. Certificate Authorities (CAs) are the trusted third parties in PKI.`},
+  {id:77,domain:"IT Risks & Controls",difficulty:"hard",question:`Which COSO internal control component relates to the ethical culture and values set by management?`,options:["Risk Assessment", "Control Activities", "Control Environment", "Monitoring Activities"],answer:2,explanation:`The Control Environment is the foundation of COSO — it sets the tone of the organization, influencing the control consciousness of its people. Key elements: integrity and ethical values, board oversight, organizational structure, assignment of authority, and commitment to competence. It is the 'tone at the top.'`},
+  {id:78,domain:"Data Management & Analytics",difficulty:"medium",question:`Referential integrity in a relational database ensures that:`,options:["All data is encrypted", "Foreign key values in one table correspond to valid primary key values in a related table", "Duplicate records are eliminated", "Data is backed up in real time"],answer:1,explanation:`Referential integrity is a database constraint ensuring that relationships between tables remain consistent. A foreign key in Table B must match an existing primary key in Table A, preventing orphaned records (e.g., a sales order referencing a non-existent customer). This is a fundamental data integrity control.`},
+  {id:79,domain:"Business Continuity & Disaster Recovery",difficulty:"medium",question:`Geographic diversity in data center placement is important for business continuity because:`,options:["It reduces network latency", "A regional disaster (hurricane, earthquake) cannot simultaneously impact both primary and backup locations", "It reduces software licensing costs", "It improves system performance"],answer:1,explanation:`Geographic separation of primary and backup data centers ensures that a single regional disaster (natural disaster, power grid failure) cannot take out both. Regulators and standards commonly recommend minimum distances (e.g., 25–100+ miles) between primary and DR sites depending on risk profile.`},
+  {id:80,domain:"IT Governance & Management",difficulty:"hard",question:`The concept of IT portfolio management involves:`,options:["Managing the organization's investment portfolio", "Evaluating and managing the collection of IT projects and assets to maximize business value", "Tracking IT assets for depreciation", "Managing IT vendor contracts"],answer:1,explanation:`IT portfolio management treats the collection of IT investments (projects, applications, infrastructure) as a portfolio to optimize business value, balance risk and return, align with strategy, and allocate resources. It involves categorizing investments (run, grow, transform) and making data-driven decisions about funding and prioritization.`},
+  {id:81,domain:"Cybersecurity",difficulty:"medium",question:`Social engineering attacks exploit:`,options:["Software vulnerabilities", "Human psychology and behavior to manipulate people into divulging information or taking harmful actions", "Network hardware weaknesses", "Database configuration errors"],answer:1,explanation:`Social engineering exploits human factors rather than technical vulnerabilities. Tactics include phishing (email), vishing (voice), smishing (SMS), pretexting (fabricated scenarios), and baiting. Security awareness training is the primary defense because humans are often the weakest security link.`},
+  {id:82,domain:"System Development & Maintenance",difficulty:"medium",question:`A software patch is primarily used to:`,options:["Add major new features to an application", "Fix known security vulnerabilities, bugs, or improve performance in existing software", "Replace an entire application", "Test software in production"],answer:1,explanation:`Patches are updates released by software vendors to fix known security vulnerabilities, correct bugs, or improve performance. Timely patch management is critical — unpatched vulnerabilities are a primary attack vector. Organizations need patch management processes to test and deploy patches systematically.`},
+  {id:83,domain:"Audit Data Analytics",difficulty:"medium",question:`When using data analytics to test accounts receivable, an auditor might identify:`,options:["The company's revenue recognition policy", "Accounts with credit balances, balances exceeding credit limits, or unusual aging patterns", "The method used to calculate depreciation", "Whether inventory was counted accurately"],answer:1,explanation:`A/R data analytics can flag: credit balances (may indicate overpayments or unrecorded liabilities), balances exceeding approved credit limits (credit risk), unusual aging (potential collectibility issues), or round-dollar balances (possible estimates). These are areas requiring further audit procedures.`},
+  {id:84,domain:"IT Risks & Controls",difficulty:"hard",question:`A user access review (UAR) is a control designed to:`,options:["Grant new employee system access", "Periodically validate that user access rights remain appropriate and remove excessive or terminated user access", "Test application functionality", "Monitor network traffic"],answer:1,explanation:`User Access Reviews (UARs) are a detective and preventive control requiring managers to periodically (quarterly, semiannually, or annually) certify that their employees' access rights are still appropriate. They identify: terminated users with active accounts, users with excessive privileges, and orphaned accounts — all security and audit risks.`},
+  {id:85,domain:"Data Management & Analytics",difficulty:"hard",question:`Data lineage in a data governance framework refers to:`,options:["The age of data in a system", "The documentation of data's origin, movement, transformations, and current location throughout its lifecycle", "The classification of data by sensitivity", "The retention schedule for data"],answer:1,explanation:`Data lineage tracks where data comes from, how it moves through systems, what transformations it undergoes, and where it ends up. This is critical for: troubleshooting data quality issues, regulatory compliance (GDPR, BCBS 239), impact analysis, and audit trail purposes.`},
+  {id:86,domain:"SOC Reports & Third-Party Risk",difficulty:"hard",question:`When evaluating a vendor's SOC 2 Type 2 report, the user auditor should consider:`,options:["The vendor's stock price", "Whether exceptions noted in the report are relevant and whether CUECs are implemented by the client", "The vendor's number of employees", "Whether the vendor uses the same ERP system"],answer:1,explanation:`Reviewing a SOC 2 Type 2 report involves: (1) Reviewing exceptions/deviations — are they material to the user's purposes? (2) Verifying the report covers the appropriate period, (3) Confirming applicable criteria, and (4) Verifying that the client has implemented all Complementary User Entity Controls (CUECs). Gaps in CUECs may require additional audit procedures.`},
+  {id:87,domain:"IT Governance & Management",difficulty:"medium",question:`An IT strategic plan should be aligned with:`,options:["The IT department's preferences", "The organization's overall business strategy and objectives", "Industry average IT spending benchmarks", "The most current technology trends"],answer:1,explanation:`Strategic alignment — ensuring IT plans support business strategy — is a cornerstone of IT governance. The IT strategic plan should derive from and support the organization's mission, strategic goals, and competitive priorities. Technology investments should be justified by business value.`},
+  {id:88,domain:"Cybersecurity",difficulty:"hard",question:`The NIST Cybersecurity Framework (CSF) organizes cybersecurity activities into five functions. Which of the following is NOT one of them?`,options:["Identify", "Protect", "Audit", "Respond"],answer:2,explanation:`The NIST CSF five core functions are: Identify, Protect, Detect, Respond, and Recover. 'Audit' is not a CSF function — it is a process that supports the framework. The CSF provides a common language for understanding, managing, and expressing cybersecurity risk.`},
+  {id:89,domain:"IT Risks & Controls",difficulty:"medium",question:`An audit log (system log) serves as which type of control?`,options:["Preventive only", "Detective \u2014 it records events for review and investigation", "Corrective only", "Directive"],answer:1,explanation:`Audit/system logs are detective controls that record system events (logins, file access, transactions, configuration changes) for later review. They support: security investigations, compliance monitoring, forensic analysis, and accountability. Log management includes ensuring logs are protected from tampering and retained appropriately.`},
+  {id:90,domain:"Data Management & Analytics",difficulty:"medium",question:`Which of the following best describes structured data?`,options:["Data stored in audio and video files", "Data organized in a predefined format with rows and columns, such as relational databases and spreadsheets", "Data from social media posts", "Data from sensors without a defined schema"],answer:1,explanation:`Structured data is highly organized and stored in relational databases or spreadsheets with a defined schema (rows, columns, data types). Unstructured data lacks predefined organization (emails, images, video, audio). Semi-structured data has some organization but no rigid schema (JSON, XML, logs).`},
+  {id:91,domain:"System Development & Maintenance",difficulty:"hard",question:`A Service Level Agreement (SLA) between an IT vendor and an organization typically specifies:`,options:["The vendor's hiring policies", "Expected performance levels, availability targets, response times, and remedies for non-compliance", "The vendor's security budget", "Employee training requirements"],answer:1,explanation:`SLAs are contractual agreements defining the level of service expected: uptime/availability (e.g., 99.9%), response and resolution times for incidents, performance benchmarks, support hours, and financial penalties or credits for failure to meet commitments. They are critical in vendor and cloud service management.`},
+  {id:92,domain:"Business Continuity & Disaster Recovery",difficulty:"medium",question:`Which of the following is the MOST important first step in developing a disaster recovery plan?`,options:["Selecting a backup vendor", "Conducting a Business Impact Analysis (BIA) to identify critical processes and their recovery requirements", "Testing the failover system", "Training all employees"],answer:1,explanation:`The BIA is always the foundation — it identifies which processes are critical, the impact of disruption over time, and establishes MTD, RTO, and RPO requirements. Without the BIA, recovery priorities cannot be determined, making the DRP impossible to design properly.`},
+  {id:93,domain:"Cybersecurity",difficulty:"medium",question:`Data loss prevention (DLP) tools are designed to:`,options:["Back up data to prevent loss from hardware failures", "Monitor and prevent unauthorized transmission of sensitive data outside the organization", "Encrypt all company data", "Detect and remove malware"],answer:1,explanation:`DLP solutions monitor, detect, and block the unauthorized transfer of sensitive data (PII, financial data, intellectual property) via email, web uploads, USB drives, and cloud services. They enforce data handling policies and help comply with regulations like HIPAA, GDPR, and PCI-DSS.`},
+  {id:94,domain:"IT Governance & Management",difficulty:"medium",question:`IT capacity planning involves:`,options:["Hiring IT staff", "Ensuring IT resources (servers, storage, network) can meet current and future business demand", "Planning IT budgets only", "Documenting IT policies"],answer:1,explanation:`Capacity planning monitors current resource utilization and forecasts future needs to prevent performance bottlenecks. Organizations must ensure IT infrastructure can scale to handle growing workloads, peak periods, and new initiatives without service degradation.`},
+  {id:95,domain:"Audit Data Analytics",difficulty:"hard",question:`CAATT (Computer-Assisted Audit Tools and Techniques) refers to:`,options:["A specific software product", "The use of software and techniques to automate audit procedures, analyze data, and test controls", "A certification for auditors", "A type of SOC report"],answer:1,explanation:`CAATTs are any software-assisted audit approaches: data extraction tools (ACL/Galvanize, IDEA), spreadsheet analysis, statistical sampling software, and custom scripts. They enable auditors to test entire populations, perform complex analyses, and detect patterns impossible to find manually.`},
+  {id:96,domain:"IT Risks & Controls",difficulty:"medium",question:`Network segmentation improves security by:`,options:["Increasing network speed", "Dividing a network into isolated segments to limit the spread of breaches and control traffic flow", "Enabling all users to access all systems", "Replacing firewalls"],answer:1,explanation:`Network segmentation divides the network into isolated zones (e.g., DMZ, internal network, guest network, production, development). If an attacker breaches one segment, they cannot freely move to others. This 'limits the blast radius' of a breach and reduces lateral movement opportunities.`},
+  {id:97,domain:"System Development & Maintenance",difficulty:"medium",question:`Which testing type verifies that a software change did not negatively affect existing functionality?`,options:["Penetration testing", "Regression testing", "Performance testing", "Integration testing"],answer:1,explanation:`Regression testing re-runs previously passing tests after a code change to ensure existing functionality still works. It is essential in change management — any change (bug fix, new feature) might unintentionally break something else. Automated regression test suites are common in modern CI/CD pipelines.`},
+  {id:98,domain:"SOC Reports & Third-Party Risk",difficulty:"medium",question:`The AICPA's Trust Services Criteria include all of the following categories EXCEPT:`,options:["Security", "Availability", "Profitability", "Privacy"],answer:2,explanation:`The five AICPA Trust Services Criteria categories are: (1) Security (CC series — required for all SOC 2), (2) Availability, (3) Processing Integrity, (4) Confidentiality, and (5) Privacy. Profitability is a financial metric and is not one of the TSC categories.`},
+  {id:99,domain:"IT Risks & Controls",difficulty:"hard",question:`The concept of 'defense in depth' in cybersecurity refers to:`,options:["Using a single, very strong security control", "Implementing multiple layers of security controls so that if one layer fails, others continue to protect", "Keeping all security measures secret", "Focusing security efforts only on the network perimeter"],answer:1,explanation:`Defense in depth (layered security) uses multiple, overlapping security controls — physical, technical, and administrative — so that the failure of one control doesn't compromise the entire system. Layers include: perimeter (firewall), network (IDS), host (antivirus), application (WAF), and data (encryption).`},
+  {id:100,domain:"Data Management & Analytics",difficulty:"medium",question:`General Data Protection Regulation (GDPR) primarily applies to:`,options:["All US-based companies", "Organizations that process personal data of EU residents, regardless of where the organization is located", "Only EU-based companies", "Financial institutions worldwide"],answer:1,explanation:`GDPR (effective May 2018) has extraterritorial reach — it applies to any organization processing personal data of EU residents, regardless of the organization's location. Key requirements: lawful basis for processing, data subject rights (access, erasure), data breach notification (72 hours), and privacy by design.`},
+  {id:101,domain:"IT Governance & Management",difficulty:"hard",question:`IT service continuity management ensures that IT services can be recovered:`,options:["Only during business hours", "Within timeframes required by the business continuity plan when disasters occur", "Without any data loss", "By the IT department independently of business needs"],answer:1,explanation:`IT Service Continuity Management (ITSCM, part of ITIL) ensures IT services can be restored within business-defined timeframes following a disruption. It is the IT component that underpins the overall BCP/DRP, ensuring technical recovery capabilities match the business's RTOs and RPOs.`},
+  {id:102,domain:"Cybersecurity",difficulty:"hard",question:`A man-in-the-middle (MitM) attack occurs when:`,options:["An attacker physically enters a data center", "An attacker secretly intercepts and potentially alters communications between two parties", "A malicious employee exfiltrates data", "An attacker guesses passwords through brute force"],answer:1,explanation:`In a MitM attack, the attacker secretly positions themselves between two communicating parties, intercepting and potentially modifying messages without detection. Defenses include: TLS/SSL encryption, certificate pinning, and network monitoring. Public Wi-Fi networks are common MitM attack vectors.`},
+  {id:103,domain:"System Development & Maintenance",difficulty:"medium",question:`An Enterprise Resource Planning (ERP) system integrates:`,options:["Only financial data", "Core business processes (finance, HR, supply chain, manufacturing) into a single unified system", "Only customer-facing applications", "Only external communication systems"],answer:1,explanation:`ERP systems (e.g., SAP, Oracle) integrate all core business processes into a unified database, eliminating data silos and enabling real-time information flow across departments. This integration is both a strength (data consistency) and a risk concentration (a single point of failure).`},
+  {id:104,domain:"IT Risks & Controls",difficulty:"medium",question:`Configuration management controls ensure that:`,options:["User passwords meet complexity requirements", "System settings and configurations are documented, controlled, and maintained in their approved state", "Applications are updated automatically", "Employees receive IT training"],answer:1,explanation:`Configuration management maintains an inventory of IT assets and their configurations, ensuring systems are set up securely and consistently. It tracks and controls changes to configurations, preventing unauthorized changes and configuration drift — a common source of security vulnerabilities.`},
+  {id:105,domain:"Audit Data Analytics",difficulty:"medium",question:`Which analytical technique plots data points to identify the relationship between two variables, useful for identifying outliers?`,options:["Regression analysis", "Scatter plot analysis", "Trend analysis", "Sampling"],answer:1,explanation:`Scatter plots display the relationship between two numerical variables and visually highlight outliers (data points far from the trend line). In audit, scatter plots can reveal unusual correlations — e.g., plotting sales commission amounts against sales revenue to identify anomalies.`},
+  {id:106,domain:"Cybersecurity",difficulty:"medium",question:`The principle of 'privacy by design' means that:`,options:["Privacy controls are added after system development", "Privacy protections are embedded into systems and processes from the very beginning of design", "Only encrypted systems are compliant", "Privacy is the responsibility of end users"],answer:1,explanation:`Privacy by design (PbD), foundational to GDPR and modern privacy regulations, requires that privacy and data protection be considered from the earliest stages of system design — not bolted on afterward. It includes: data minimization, purpose limitation, and default privacy settings.`},
+  {id:107,domain:"IT Governance & Management",difficulty:"medium",question:`IT asset management (ITAM) involves:`,options:["Managing financial investments in technology stocks", "Tracking and managing the lifecycle of all IT hardware and software assets to optimize value and reduce risk", "Managing employee IT training programs", "Overseeing external IT vendor relationships only"],answer:1,explanation:`ITAM tracks all IT assets (hardware, software, licenses, cloud services) through their lifecycle from acquisition through disposal. Benefits include: cost optimization (avoiding unused licenses), security (knowing what assets exist), compliance (software licensing), and accurate depreciation for financial reporting.`},
+  {id:108,domain:"SOC Reports & Third-Party Risk",difficulty:"hard",question:`A subservice organization in a SOC report is:`,options:["A subsidiary of the service organization", "A third-party vendor that the service organization itself relies upon for services relevant to user entity controls", "An audit firm reviewing the SOC report", "A regulatory body overseeing the service organization"],answer:1,explanation:`A subservice organization is a vendor that a service organization (SO) relies on to provide services relevant to the SO's controls. For example, a payroll processor using a cloud provider. SOC reports may use an inclusive method (covering subservice) or carve-out method (excluding and disclosing subservice). Users must evaluate subservice risks.`},
+  {id:109,domain:"IT Risks & Controls",difficulty:"easy",question:`The purpose of IT policies and procedures is to:`,options:["Replace the need for IT controls", "Document expected behaviors, responsibilities, and standards for IT activities", "Train only new employees", "Satisfy external auditors only"],answer:1,explanation:`IT policies define what must be done (rules and requirements); procedures describe how to do it (step-by-step instructions). Together they form the administrative controls layer: setting expectations, assigning responsibilities, establishing standards, and providing the basis for monitoring compliance and accountability.`},
+  {id:110,domain:"Data Management & Analytics",difficulty:"hard",question:`The concept of data normalization in relational databases is designed to:`,options:["Compress data for faster storage", "Organize data to reduce redundancy and improve data integrity by eliminating update anomalies", "Encrypt sensitive data fields", "Speed up query performance through denormalization"],answer:1,explanation:`Database normalization (1NF, 2NF, 3NF, BCNF) organizes data into tables to eliminate redundancy and prevent anomalies: insertion anomalies (can't add data without other data), update anomalies (changing one record requires changing multiple), and deletion anomalies (deleting one fact deletes others).`},
+  {id:111,domain:"Business Continuity & Disaster Recovery",difficulty:"medium",question:`Which of the following would be classified as a man-made threat to business continuity?`,options:["Earthquake", "Ransomware attack", "Hurricane", "Power outage due to storms"],answer:1,explanation:`Threats to business continuity are categorized as natural (earthquakes, floods, hurricanes), technical (hardware failure, software bugs, power failure), or human/man-made (cyberattacks, sabotage, terrorism, human error). Ransomware is a deliberate human-initiated threat. BCPs must address all three categories.`},
+  {id:112,domain:"Cybersecurity",difficulty:"hard",question:`Cross-site scripting (XSS) attacks target:`,options:["Network routers and switches", "Web applications, injecting malicious scripts that execute in the victim's browser", "Database servers directly", "Email servers"],answer:1,explanation:`XSS attacks inject malicious client-side scripts (usually JavaScript) into web pages viewed by other users. When a victim loads the compromised page, the script executes in their browser, enabling attackers to steal cookies, session tokens, or redirect users. Prevention: input validation, output encoding, Content Security Policy (CSP).`},
+  {id:113,domain:"Audit Data Analytics",difficulty:"medium",question:`Gap analysis in audit data analytics identifies:`,options:["Differences between actual and budgeted costs", "Missing sequence numbers in records such as invoice numbers or check numbers", "Differences between two financial periods", "Missing employee records"],answer:1,explanation:`Gap testing (sequence gap analysis) identifies missing items in a sequential series (check numbers, invoice numbers, purchase orders). Missing numbers may indicate skipped or deleted transactions — a potential indicator of fraud such as check kiting or fictitious invoice schemes.`},
+  {id:114,domain:"System Development & Maintenance",difficulty:"hard",question:`Infrastructure as Code (IaC) refers to:`,options:["Writing software applications for infrastructure companies", "Managing and provisioning IT infrastructure through machine-readable configuration files rather than manual processes", "Documenting infrastructure architecture in written form", "Outsourcing infrastructure management to vendors"],answer:1,explanation:`IaC (e.g., Terraform, AWS CloudFormation) treats infrastructure configuration as software code — version-controlled, tested, and deployed automatically. Benefits include: consistency (no manual errors), repeatability, speed of provisioning, and auditability of all infrastructure changes.`},
+  {id:115,domain:"IT Risks & Controls",difficulty:"medium",question:`Incident response planning ensures that organizations can:`,options:["Prevent all security incidents", "Detect, contain, eradicate, and recover from security incidents in an organized and effective manner", "Avoid all business disruptions", "Eliminate the need for cyber insurance"],answer:1,explanation:`An Incident Response Plan (IRP) provides structured procedures for handling security incidents. The NIST incident response lifecycle: Preparation → Detection & Analysis → Containment → Eradication → Recovery → Post-Incident Activity (lessons learned). Having a tested IRP significantly reduces the cost and impact of breaches.`},
+  {id:116,domain:"Data Management & Analytics",difficulty:"medium",question:`Metadata is best described as:`,options:["Large volumes of data", "Data that describes other data \u2014 providing context such as author, creation date, file size, and structure", "Encrypted data", "Backup data stored offsite"],answer:1,explanation:`Metadata is 'data about data' — it provides context and structure. Examples: a document's author and creation date, a photo's location and camera settings, a database table's schema. Metadata is critical for data governance, discovery, compliance, and audit purposes.`},
+  {id:117,domain:"SOC Reports & Third-Party Risk",difficulty:"medium",question:`The bridge letter (gap letter) in SOC reporting is used when:`,options:["The service organization has a qualified opinion", "The SOC report period doesn't cover the full audit period and provides limited assurance for the intervening period", "The user entity needs a simplified version of the SOC report", "Additional criteria beyond security are required"],answer:1,explanation:`A bridge letter is issued by the service organization's management (not the auditor) to provide assurance for the period between the SOC report's end date and the user auditor's report date. While useful, bridge letters provide less assurance than a full Type 2 report and are assessed carefully.`},
+  {id:118,domain:"IT Governance & Management",difficulty:"hard",question:`IT due diligence during mergers and acquisitions involves:`,options:["Only reviewing the target's financial systems", "Assessing the target's IT assets, liabilities, architecture, security posture, and integration requirements", "Transferring all IT staff immediately", "Immediately migrating all systems to the acquirer's platform"],answer:1,explanation:`IT due diligence in M&A assesses: IT asset inventory and condition, technical debt, cybersecurity risks (past breaches, vulnerabilities), compliance obligations, software licensing, key person dependencies, integration complexity and cost, and IT contracts. IT issues can significantly affect deal valuation and integration timelines.`},
+  {id:119,domain:"Cybersecurity",difficulty:"medium",question:`A vulnerability assessment differs from a penetration test in that a vulnerability assessment:`,options:["Is more thorough than a penetration test", "Identifies and catalogs vulnerabilities but does not attempt to exploit them", "Is only performed externally", "Includes social engineering tests"],answer:1,explanation:`A vulnerability assessment scans systems to identify and prioritize known vulnerabilities (using tools like Nessus, Qualys) but does NOT actively exploit them. A penetration test goes further — it actively tries to exploit vulnerabilities to demonstrate real-world impact. Both are important components of a security testing program.`},
+  {id:120,domain:"Audit Data Analytics",difficulty:"hard",question:`The use of robotic process automation (RPA) in audit and accounting primarily enables:`,options:["More complex judgment-based decisions", "Automation of high-volume, repetitive, rule-based tasks such as data reconciliation and report generation", "Replacement of all audit professionals", "Real-time market trading"],answer:1,explanation:`RPA uses software 'bots' to automate repetitive, rule-based processes: data entry, reconciliations, report generation, and compliance checks. In audit, RPA can continuously perform control monitoring, process confirmations, and data extraction — freeing auditors to focus on judgment-intensive activities.`}
+];
+
+/* ═══════════════════════════════════════════════════
+   ISC CPA STUDY HUB — app.js
+   Author: Alex S. Gonzalez Mateo
+   Description: Full app logic — quiz engine, AI chat,
+   reference builder, selector, scoring
+═══════════════════════════════════════════════════ */
+
+'use strict';
+
+// ── State ────────────────────────────────────────────
+const state = {
+  questions:      [],        // loaded from questions.json
+  quiz:           [],        // active quiz question list
+  currentQ:       0,
+  answered:       false,
+  score:          0,
+  sessionCorrect: 0,
+  sessionWrong:   0,
+  sessionTotal:   0,
+  domainResults:  {},        // { domain: { correct, total } }
+  missedQuestions:[],        // ids of missed questions
+  filterType:     'all',     // 'all' | 'domain' | 'difficulty'
+  filterValue:    null,
+  chatHistory:    [],
+};
+
+// ── Boot ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  state.questions = QUESTIONS;
+  buildHeroStats();
+  buildDomainGrid();
+  buildRefGrid();
+});
+
+// ════════════════════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════════════════════
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.view === id);
+  });
+
+  // quiz & results both highlight the quiz tab
+  if (id === 'results') {
+    document.querySelector('[data-view="quiz"]')?.classList.add('active');
+  }
+
+  window.scrollTo(0, 0);
+}
+
+// ════════════════════════════════════════════════════
+//  HOME — Hero Stats & Domain Grid
+// ════════════════════════════════════════════════════
+function buildHeroStats() {
+  const domains = [...new Set(state.questions.map(q => q.domain))];
+  const stats = [
+    { num: state.questions.length, lbl: 'Practice Questions' },
+    { num: domains.length,         lbl: 'ISC Domains' },
+    { num: '100%',                 lbl: 'Free to Use' },
+  ];
+  document.getElementById('heroStats').innerHTML = stats.map(s => `
+    <div class="hero-stat">
+      <div class="hero-stat-num">${s.num}</div>
+      <div class="hero-stat-lbl">${s.lbl}</div>
+    </div>`).join('');
+}
+
+function buildDomainGrid() {
+  const counts = {};
+  state.questions.forEach(q => {
+    counts[q.domain] = (counts[q.domain] || 0) + 1;
+  });
+  const grid = document.getElementById('domainGrid');
+  grid.innerHTML = Object.entries(counts).map(([domain, count]) => `
+    <div class="domain-card" onclick="quickStartDomain('${escapeDomain(domain)}')">
+      <div class="domain-card-title">${domain}</div>
+      <div class="domain-card-count">${count} questions</div>
+    </div>`).join('');
+}
+
+function escapeDomain(d) { return d.replace(/'/g, "\\'"); }
+
+function quickStartDomain(domain) {
+  state.filterType  = 'domain';
+  state.filterValue = domain;
+  startQuiz();
+}
+
+// ════════════════════════════════════════════════════
+//  SELECTOR OVERLAY
+// ════════════════════════════════════════════════════
+function openSelector(presetType) {
+  if (presetType) {
+    state.filterType = presetType;
+  }
+  renderFilterOptions();
+  document.getElementById('selectorOverlay').classList.add('open');
+
+  // sync filter type tabs
+  document.querySelectorAll('.ftab').forEach(btn => btn.classList.remove('active'));
+  const typeMap = { all: 0, domain: 1, difficulty: 2 };
+  document.querySelectorAll('.ftab')[typeMap[state.filterType] ?? 0]?.classList.add('active');
+}
+
+function closeSelector() {
+  document.getElementById('selectorOverlay').classList.remove('open');
+}
+
+function setFilterType(type, btn) {
+  state.filterType  = type;
+  state.filterValue = null;
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFilterOptions();
+}
+
+function renderFilterOptions() {
+  const container = document.getElementById('filterOptions');
+  if (state.filterType === 'all') {
+    container.innerHTML = `
+      <button class="fopt selected" style="grid-column:span 2">
+        All 120 Questions (Shuffled)
+      </button>`;
+    return;
+  }
+
+  if (state.filterType === 'domain') {
+    const domains = [...new Set(state.questions.map(q => q.domain))];
+    container.innerHTML = domains.map(d => `
+      <button class="fopt ${state.filterValue === d ? 'selected' : ''}"
+              onclick="selectFilterValue('${escapeDomain(d)}', this)">
+        ${d}
+      </button>`).join('');
+    return;
+  }
+
+  if (state.filterType === 'difficulty') {
+    const difficulties = ['easy', 'medium', 'hard'];
+    container.innerHTML = difficulties.map(d => `
+      <button class="fopt ${state.filterValue === d ? 'selected' : ''}"
+              onclick="selectFilterValue('${d}', this)">
+        ${d.charAt(0).toUpperCase() + d.slice(1)}
+      </button>`).join('');
+    return;
+  }
+}
+
+function selectFilterValue(value, btn) {
+  state.filterValue = value;
+  document.querySelectorAll('.fopt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function setCount(n, btn) {
+  document.getElementById('qCount').value = n;
+  document.querySelectorAll('.count-preset').forEach(b => b.classList.remove('active'));
+  if(btn){document.querySelectorAll('.count-preset').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+}
+
+// ════════════════════════════════════════════════════
+//  QUIZ ENGINE
+// ════════════════════════════════════════════════════
+function startQuiz() {
+  closeSelector();
+
+  // Filter pool
+  let pool = [...state.questions];
+  if (state.filterType === 'domain' && state.filterValue) {
+    pool = pool.filter(q => q.domain === state.filterValue);
+  } else if (state.filterType === 'difficulty' && state.filterValue) {
+    pool = pool.filter(q => q.difficulty === state.filterValue);
+  }
+
+  // Shuffle
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+
+  const count = Math.min(
+    parseInt(document.getElementById('qCount').value) || 10,
+    pool.length
+  );
+
+  state.quiz        = pool.slice(0, count);
+  state.currentQ    = 0;
+  state.score       = 0;
+  state.domainResults  = {};
+  state.missedQuestions = [];
+  state.answered    = false;
+
+  showView('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q     = state.quiz[state.currentQ];
+  const total = state.quiz.length;
+  state.answered = false;
+
+  // Top bar
+  document.getElementById('quizMeta').textContent =
+    `Question ${state.currentQ + 1} of ${total}`;
+  document.getElementById('progressFill').style.width =
+    `${(state.currentQ / total) * 100}%`;
+  document.getElementById('quizLiveScore').textContent =
+    `${state.score} / ${state.currentQ}`;
+
+  // Body
+  document.getElementById('quizBody').innerHTML = `
+    <div class="question-card">
+      <div>
+        <span class="q-domain-tag">${q.domain}</span>
+        <span class="q-difficulty-tag ${q.difficulty}">${q.difficulty}</span>
+      </div>
+      <div class="q-text">${q.question}</div>
+      <div class="options" id="options">
+        ${q.options.map((opt, i) => `
+          <button class="option" id="opt-${i}" onclick="selectAnswer(${i})">
+            <span class="option-letter">${['A','B','C','D'][i]}.</span>
+            <span>${opt}</span>
+          </button>`).join('')}
+      </div>
+      <div id="feedback"></div>
+      <div class="quiz-actions">
+        <button class="btn-next" id="btnNext" onclick="nextQuestion()" disabled>
+          ${state.currentQ === total - 1 ? 'See Results →' : 'Next Question →'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function selectAnswer(idx) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const q         = state.quiz[state.currentQ];
+  const isCorrect = idx === q.answer;
+
+  // Score tracking
+  if (isCorrect) {
+    state.score++;
+    state.sessionCorrect++;
+  } else {
+    state.sessionWrong++;
+    state.missedQuestions.push(q.id);
+  }
+  state.sessionTotal++;
+
+  // Domain tracking
+  if (!state.domainResults[q.domain]) {
+    state.domainResults[q.domain] = { correct: 0, total: 0 };
+  }
+  state.domainResults[q.domain].total++;
+  if (isCorrect) state.domainResults[q.domain].correct++;
+
+  updateScoreBadge();
+
+  // Style options
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.add('disabled');
+    el.setAttribute('disabled', true);
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === idx && !isCorrect) el.classList.add('wrong');
+  });
+
+  // Feedback
+  const letters = ['A','B','C','D'];
+  document.getElementById('feedback').innerHTML = `
+    <div class="feedback-box ${isCorrect ? 'correct-fb' : 'wrong-fb'}">
+      <div class="feedback-verdict">
+        ${isCorrect
+          ? '✓ Correct!'
+          : `✗ Incorrect — Correct Answer: ${letters[q.answer]}. ${q.options[q.answer]}`}
+      </div>
+      <div class="feedback-text">${q.explanation}</div>
+    </div>`;
+
+  document.getElementById('btnNext').disabled = false;
+}
+
+function nextQuestion() {
+  state.currentQ++;
+  if (state.currentQ >= state.quiz.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function confirmBack() {
+  if (state.currentQ === 0 && !state.answered) {
+    showView('home');
+    return;
+  }
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+function doBack() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  showView('home');
+}
+
+// ════════════════════════════════════════════════════
+//  RESULTS
+// ════════════════════════════════════════════════════
+function showResults() {
+  const total = state.quiz.length;
+  const pct   = Math.round((state.score / total) * 100);
+
+  document.getElementById('ringPct').textContent   = pct + '%';
+  document.getElementById('rCorrect').textContent  = state.score;
+  document.getElementById('rWrong').textContent    = total - state.score;
+  document.getElementById('rTotal').textContent    = total;
+
+  // Animate ring (circumference ≈ 327)
+  setTimeout(() => {
+    const offset = 327 - (327 * pct / 100);
+    document.getElementById('ringFill').style.strokeDashoffset = offset;
+    document.getElementById('ringFill').style.stroke =
+      pct >= 75 ? '#5dba87' : pct >= 50 ? '#c9a84c' : '#d97272';
+  }, 100);
+
+  const msgs = [
+    'Keep pushing — every expert was once a beginner.',
+    'Solid effort. Focus on the domains where you struggled.',
+    'Good work! Review the missed topics and try again.',
+    'Great performance! You\'re well on your way.',
+    'Outstanding — CPA ISC ready! 🎉',
+  ];
+  document.getElementById('resultsMsg').textContent =
+    msgs[Math.min(Math.floor(pct / 20), 4)];
+
+  // Domain breakdown
+  const breakdownHtml = Object.entries(state.domainResults).map(([domain, data]) => {
+    const dpct = Math.round((data.correct / data.total) * 100);
+    const color = dpct >= 75 ? '#5dba87' : dpct >= 50 ? '#c9a84c' : '#d97272';
+    return `
+      <div class="breakdown-row">
+        <span class="breakdown-label">${domain}</span>
+        <div class="breakdown-bar-track">
+          <div class="breakdown-bar-fill"
+               style="width:0%;background:${color}"
+               data-width="${dpct}"></div>
+        </div>
+        <span class="breakdown-score">${data.correct}/${data.total}</span>
+      </div>`;
+  }).join('');
+
+  document.getElementById('domainBreakdown').innerHTML = `
+    <div class="breakdown-title">Performance by Domain</div>
+    ${breakdownHtml}`;
+
+  showView('results');
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.breakdown-bar-fill').forEach(el => {
+      el.style.width = el.dataset.width + '%';
+      el.style.transition = 'width 0.8s ease';
+    });
+  }, 150);
+}
+
+function reviewMissed() {
+  if (!state.missedQuestions.length) {
+    alert('You didn\'t miss any questions! Perfect score 🎉');
+    return;
+  }
+  const missed = state.questions.filter(q => state.missedQuestions.includes(q.id));
+  state.quiz     = missed;
+  state.currentQ = 0;
+  state.score    = 0;
+  state.answered = false;
+  state.domainResults   = {};
+  state.missedQuestions = [];
+  showView('quiz');
+  renderQuestion();
+}
+
+// ════════════════════════════════════════════════════
+//  SCORE BADGE
+// ════════════════════════════════════════════════════
+function updateScoreBadge() {
+  const pct = state.sessionTotal > 0
+    ? Math.round((state.sessionCorrect / state.sessionTotal) * 100) + '%'
+    : '—';
+  document.getElementById('scoreValue').textContent = pct;
+}
+
+// ════════════════════════════════════════════════════
+//  CHAT — AI Tutor
+// ════════════════════════════════════════════════════
+const ISC_SYSTEM_PROMPT = `You are an expert CPA exam tutor specializing in the ISC (Information Systems & Controls) section. You have deep knowledge of:
+
+- IT Governance & Management (COBIT, ITIL, RACI, IT steering committees)
+- IT Risks & Controls (GITCs, application controls, COSO framework, access controls, segregation of duties)
+- System Development & Maintenance (SDLC, Agile/Scrum, change management, testing types)
+- Data Management & Analytics (DBMS, ACID, ETL, data warehouses, master data management, GDPR)
+- Cybersecurity (CIA triad, threats & attacks, encryption, firewalls, Zero Trust, NIST CSF)
+- Business Continuity & Disaster Recovery (BIA, RTO, RPO, MTD, hot/warm/cold sites, 3-2-1 backup)
+- Audit Data Analytics (Benford's Law, CAATs, continuous auditing, data visualization, sampling)
+- SOC Reports & Third-Party Risk (SOC 1/2/3, Type 1 vs Type 2, CUECs, subservice organizations, TPRM)
+
+When answering:
+- Be clear, concise, and educational
+- Reference specific standards, frameworks, and acronyms relevant to the ISC exam (AICPA, COBIT, COSO, NIST, ISACA)
+- Use concrete examples to illustrate concepts
+- If asked a multiple choice question, identify the correct answer AND explain why each wrong answer is incorrect
+- Format responses with short paragraphs — avoid walls of text
+- When relevant, connect concepts to how they appear on the actual CPA ISC exam
+- Always maintain a supportive, encouraging tone`;
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg   = input.value.trim();
+  if (!msg) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  appendMessage('user', msg);
+  state.chatHistory.push({ role: 'user', content: msg });
+
+  showTyping(true);
+  document.getElementById('chatSend').disabled = true;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model:      'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system:     ISC_SYSTEM_PROMPT,
+        messages:   state.chatHistory,
+      }),
+    });
+
+    const data  = await res.json();
+    const reply = data.content?.find(b => b.type === 'text')?.text
+      || 'Sorry, I couldn\'t generate a response. Please try again.';
+
+    state.chatHistory.push({ role: 'assistant', content: reply });
+    showTyping(false);
+    appendMessage('assistant', reply);
+
+  } catch (err) {
+    showTyping(false);
+    appendMessage('assistant',
+      '⚠️ Connection error. Please check your network and try again.');
+    console.error('Chat error:', err);
+  }
+
+  document.getElementById('chatSend').disabled = false;
+}
+
+function appendMessage(role, text) {
+  const container = document.getElementById('chatMessages');
+
+  // Format: markdown-lite (bold, line breaks, bullet points)
+  const formatted = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code>$1</code>')
+    .split('\n\n')
+    .map(para => {
+      // Check for bullet list
+      if (para.match(/^[-•]\s/m)) {
+        const items = para.split('\n')
+          .filter(l => l.trim())
+          .map(l => `<li>${l.replace(/^[-•]\s/, '')}</li>`)
+          .join('');
+        return `<ul>${items}</ul>`;
+      }
+      return `<p>${para.replace(/\n/g, '<br>')}</p>`;
+    })
+    .join('');
+
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `
+    <div class="msg-avatar">${role === 'user' ? 'You' : 'AI'}</div>
+    <div class="msg-content">
+      <div class="msg-role">${role === 'user' ? 'You' : 'ISC Tutor'}</div>
+      <div class="msg-bubble">${formatted}</div>
+    </div>`;
+
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping(show) {
+  const existing = document.getElementById('typingIndicator');
+  if (existing) existing.remove();
+  if (!show) return;
+
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg assistant';
+  div.id = 'typingIndicator';
+  div.innerHTML = `
+    <div class="msg-avatar">AI</div>
+    <div class="msg-content">
+      <div class="msg-role">ISC Tutor</div>
+      <div class="msg-bubble">
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+    </div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendChip(text) {
+  document.getElementById('chatInput').value = text;
+  sendChat();
+}
+
+function clearChat() {
+  state.chatHistory = [];
+  document.getElementById('chatMessages').innerHTML = `
+    <div class="msg assistant">
+      <div class="msg-avatar">AI</div>
+      <div class="msg-content">
+        <div class="msg-role">ISC Tutor</div>
+        <div class="msg-bubble">
+          <p>Chat cleared! Ask me anything about the ISC CPA exam.</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChat();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+}
+
+// ════════════════════════════════════════════════════
+//  REFERENCE GUIDE
+// ════════════════════════════════════════════════════
+const REF_DATA = [
+  {
+    title: 'COBIT 2019 — Governance Framework',
+    category: 'governance',
+    items: [
+      { name: 'What it is', value: 'Control Objectives for Information and Related Technologies (ISACA)', desc: 'Leading IT governance & management framework' },
+      { name: 'Core Domains', value: 'Evaluate, Direct & Monitor (EDM) · Align, Plan & Organize (APO) · Build, Acquire & Implement (BAI) · Deliver, Service & Support (DSS) · Monitor, Evaluate & Assess (MEA)', desc: '' },
+      { name: 'Key Concept', value: 'Cascade: Stakeholder Needs → Enterprise Goals → Alignment Goals → Governance & Management Objectives', desc: '' },
+    ],
+  },
+  {
+    title: 'COSO — Internal Control Framework',
+    category: 'governance',
+    items: [
+      { name: '5 Components', value: '1. Control Environment · 2. Risk Assessment · 3. Control Activities · 4. Information & Communication · 5. Monitoring Activities', desc: '' },
+      { name: '17 Principles', value: 'Each component has principles — e.g., "Tone at the top" (Control Environment), "Identify & analyze risk" (Risk Assessment)', desc: '' },
+      { name: 'ERM Extension', value: 'COSO ERM adds: Mission/Vision, Strategy, Performance, Review & Revision, Information/Communication, Monitoring', desc: '' },
+    ],
+  },
+  {
+    title: 'IT Controls — Types & Examples',
+    category: 'governance',
+    items: [
+      { name: 'Preventive', value: 'Access controls, Input validation, Segregation of duties, Encryption', desc: 'Stop errors/irregularities before they occur' },
+      { name: 'Detective', value: 'Audit logs, Reconciliations, Exception reports, IDS alerts', desc: 'Identify problems after they occur' },
+      { name: 'Corrective', value: 'Patch management, Incident response, Data restoration, Error correction', desc: 'Fix identified problems' },
+      { name: 'Compensating', value: 'Enhanced monitoring when SoD not feasible; supervisor review', desc: 'Alternative when primary control cannot be implemented' },
+    ],
+  },
+  {
+    title: 'RACI Model',
+    category: 'governance',
+    items: [
+      { name: 'R — Responsible', value: 'Performs the work', desc: 'The person(s) who do the task' },
+      { name: 'A — Accountable', value: 'Approves & owns the outcome (one per task)', desc: 'Ultimately answerable — the decision-maker' },
+      { name: 'C — Consulted', value: 'Provides input/expertise (two-way communication)', desc: 'Subject matter experts consulted before decisions' },
+      { name: 'I — Informed', value: 'Kept updated on progress/results (one-way)', desc: 'Notified of outcomes but not involved in process' },
+    ],
+  },
+  {
+    title: 'CIA Triad & Key Cybersecurity Concepts',
+    category: 'security',
+    items: [
+      { name: 'Confidentiality', value: 'Data accessible only to authorized parties', desc: 'Controls: encryption, access controls, DLP, MFA' },
+      { name: 'Integrity', value: 'Data is accurate and unaltered', desc: 'Controls: hashing, digital signatures, audit logs' },
+      { name: 'Availability', value: 'Systems and data accessible when needed', desc: 'Controls: redundancy, BCP/DR, DDoS protection, patching' },
+      { name: 'Authentication vs Authorization', value: 'AuthN: Who are you? (MFA) · AuthZ: What can you access? (RBAC)', desc: '' },
+    ],
+  },
+  {
+    title: 'NIST Cybersecurity Framework (CSF)',
+    category: 'security',
+    items: [
+      { name: '5 Core Functions', value: 'Identify → Protect → Detect → Respond → Recover', desc: 'CSF 2.0 adds "Govern" as an overarching function' },
+      { name: 'Identify', value: 'Asset management, risk assessment, governance', desc: '' },
+      { name: 'Protect', value: 'Access controls, awareness training, data security', desc: '' },
+      { name: 'Detect', value: 'Anomaly detection, continuous monitoring, SIEM', desc: '' },
+      { name: 'Respond', value: 'Incident response, communications, mitigation', desc: '' },
+      { name: 'Recover', value: 'Recovery planning, improvements, communications', desc: '' },
+    ],
+  },
+  {
+    title: 'Common Cyber Threats',
+    category: 'security',
+    items: [
+      { name: 'Phishing', value: 'Deceptive email/message to steal credentials or deliver malware', desc: 'Defense: Security awareness training, email filtering, MFA' },
+      { name: 'Ransomware', value: 'Encrypts data, demands ransom; threatens Availability & Confidentiality', desc: 'Defense: Backups (3-2-1), patching, EDR, MFA' },
+      { name: 'SQL Injection', value: 'Malicious SQL in input fields to manipulate databases', desc: 'Defense: Parameterized queries, input validation, WAF' },
+      { name: 'Social Engineering', value: 'Exploiting human psychology — phishing, vishing, pretexting', desc: '' },
+      { name: 'APT', value: 'Advanced Persistent Threat — long-term stealthy nation-state attack', desc: '' },
+      { name: 'MitM', value: 'Man-in-the-Middle — intercepts communications', desc: 'Defense: TLS/SSL, certificate pinning' },
+    ],
+  },
+  {
+    title: 'Encryption — Key Concepts',
+    category: 'security',
+    items: [
+      { name: 'At Rest', value: 'Protects stored data (disks, databases, backups)', desc: 'AES-256 is the standard for symmetric encryption at rest' },
+      { name: 'In Transit', value: 'Protects data moving over networks', desc: 'TLS 1.2/1.3 (HTTPS) is the standard' },
+      { name: 'Symmetric', value: 'Same key for encrypt & decrypt — fast (AES)', desc: 'Key distribution is the challenge' },
+      { name: 'Asymmetric', value: 'Public key (encrypt) + Private key (decrypt) — RSA, ECC', desc: 'Used in PKI, TLS handshake, digital signatures' },
+      { name: 'Hashing', value: 'One-way function — SHA-256, SHA-3', desc: 'Used for integrity checks and password storage' },
+    ],
+  },
+  {
+    title: 'Business Continuity — Key Metrics',
+    category: 'continuity',
+    items: [
+      { name: 'MTD / MTPD', value: 'Maximum Tolerable Downtime — longest acceptable outage before catastrophic harm', desc: 'Drives RTO: RTO must always be < MTD' },
+      { name: 'RTO', value: 'Recovery Time Objective — max time to restore systems after disruption', desc: 'Determines speed (and cost) of recovery solution needed' },
+      { name: 'RPO', value: 'Recovery Point Objective — max acceptable data loss measured in time', desc: 'Determines backup frequency required' },
+      { name: 'MTTR', value: 'Mean Time to Recovery — average time to restore a failed component', desc: '' },
+      { name: 'MTBF', value: 'Mean Time Between Failures — average time between system failures', desc: 'Higher MTBF = more reliable system' },
+    ],
+  },
+  {
+    title: 'DR Site Types',
+    category: 'continuity',
+    items: [
+      { name: 'Hot Site', value: 'Fully operational, real-time data replication', desc: 'Recovery: Minutes to hours | Cost: Highest' },
+      { name: 'Warm Site', value: 'Hardware ready, data needs restoration', desc: 'Recovery: Hours to days | Cost: Medium' },
+      { name: 'Cold Site', value: 'Empty facility only (power, HVAC, connectivity)', desc: 'Recovery: Days to weeks | Cost: Lowest' },
+      { name: 'Cloud DR', value: 'Cloud-based recovery (DRaaS — Disaster Recovery as a Service)', desc: 'Flexible, scalable, pay-as-you-go' },
+    ],
+  },
+  {
+    title: '3-2-1 Backup Rule',
+    category: 'continuity',
+    items: [
+      { name: '3', value: '3 copies of data total (1 primary + 2 backups)', desc: '' },
+      { name: '2', value: '2 different media types (e.g., disk + tape OR disk + cloud)', desc: '' },
+      { name: '1', value: '1 copy stored offsite or in the cloud', desc: 'Protects against site-level disaster, ransomware, hardware failure' },
+    ],
+  },
+  {
+    title: 'BCP/DR Testing Types',
+    category: 'continuity',
+    items: [
+      { name: 'Tabletop Exercise', value: 'Discussion-based walkthrough of scenarios', desc: 'Lowest cost & risk; identifies plan gaps' },
+      { name: 'Walkthrough Drill', value: 'Team practices their specific roles in the plan', desc: '' },
+      { name: 'Simulation Test', value: 'Simulated disaster without actual failover', desc: '' },
+      { name: 'Parallel Test', value: 'Both systems run simultaneously; compare outputs', desc: 'Higher confidence; no production risk' },
+      { name: 'Full Interruption', value: 'Primary system shut down; recover from DR site', desc: 'Highest assurance; highest risk' },
+    ],
+  },
+  {
+    title: 'SOC Report Quick Reference',
+    category: 'soc',
+    items: [
+      { name: 'SOC 1', value: 'Controls over financial reporting (ICFR)', desc: 'Used by: User entity auditors · Framework: SSAE 18 · Audience: Restricted' },
+      { name: 'SOC 2', value: 'Trust Services Criteria: Security, Availability, Processing Integrity, Confidentiality, Privacy', desc: 'Used by: Enterprise customers · Audience: Restricted (NDA)' },
+      { name: 'SOC 3', value: 'Same as SOC 2 — no test details', desc: 'Audience: General public (can be posted on website)' },
+      { name: 'SOC for Cybersecurity', value: 'Cybersecurity risk management program', desc: 'Audience: General / Board / Investors' },
+    ],
+  },
+  {
+    title: 'SOC 2 — Trust Services Criteria',
+    category: 'soc',
+    items: [
+      { name: 'Security (CC)', value: 'Required for ALL SOC 2 engagements — Common Criteria (CC series)', desc: 'Covers: access controls, encryption, monitoring, incident response' },
+      { name: 'Availability (A)', value: 'System available for operation and use as committed', desc: 'SLAs, uptime monitoring, DR' },
+      { name: 'Processing Integrity (PI)', value: 'Processing is complete, valid, accurate, timely', desc: 'Key for financial processing, payroll, transactions' },
+      { name: 'Confidentiality (C)', value: 'Information designated as confidential is protected', desc: 'NDA data, trade secrets' },
+      { name: 'Privacy (P)', value: 'Personal information collected/used per privacy notice', desc: 'GDPR, CCPA alignment' },
+    ],
+  },
+  {
+    title: 'Type 1 vs Type 2 Reports',
+    category: 'soc',
+    items: [
+      { name: 'Type 1', value: 'Design only — "as of" a point in time', desc: 'Tests: Are controls suitably designed? | Less assurance' },
+      { name: 'Type 2', value: 'Design AND operating effectiveness over a period (6–12 months)', desc: 'Tests: Did controls actually work consistently? | Higher assurance' },
+      { name: 'CUECs', value: 'Complementary User Entity Controls — controls users MUST implement', desc: 'User auditors must verify client has implemented all CUECs' },
+      { name: 'Bridge Letter', value: 'Covers gap between SOC period end and user audit date', desc: 'Less assurance than a full Type 2; issued by management, not auditor' },
+    ],
+  },
+  {
+    title: 'SDLC Phases & Key Controls',
+    category: 'governance',
+    items: [
+      { name: '1. Planning', value: 'Feasibility analysis, project charter, risk assessment', desc: '' },
+      { name: '2. Analysis', value: 'Requirements gathering, stakeholder sign-off', desc: '' },
+      { name: '3. Design', value: 'System architecture, security design, data model', desc: '' },
+      { name: '4. Development', value: 'Coding standards, code review, version control', desc: '' },
+      { name: '5. Testing', value: 'Unit, integration, regression, UAT, penetration testing', desc: 'Separate test environment; developers don\'t migrate own code' },
+      { name: '6. Implementation', value: 'Change management, rollback plan, parallel/phased/cutover', desc: '' },
+      { name: '7. Maintenance', value: 'Patch management, change management, performance monitoring', desc: '' },
+    ],
+  },
+  {
+    title: 'Audit Data Analytics Tools & Techniques',
+    category: 'data',
+    items: [
+      { name: 'Benford\'s Law', value: 'Leading digit frequency — 1 ≈ 30%, 2 ≈ 18%, 3 ≈ 12%…', desc: 'Use: Detect manipulation in A/P, journal entries, expenses' },
+      { name: 'Gap Analysis', value: 'Identify missing sequence numbers (invoices, checks)', desc: 'Use: Detect voided/deleted transactions' },
+      { name: 'Duplicate Testing', value: 'Match on vendor + amount + invoice + date', desc: 'Use: Detect duplicate payments, fictitious invoices' },
+      { name: 'Stratification', value: 'Divide population by amount/attribute for targeted testing', desc: '100% test high-value; sample lower-value items' },
+      { name: 'Regression Analysis', value: 'Identify relationship/trend between variables; spot outliers', desc: '' },
+      { name: 'CAATs', value: 'Computer-Assisted Audit Tools — ACL/Galvanize, IDEA, scripts', desc: 'Enable 100% population testing' },
+    ],
+  },
+  {
+    title: 'Data Management — Key Concepts',
+    category: 'data',
+    items: [
+      { name: 'ACID Properties', value: 'Atomicity · Consistency · Isolation · Durability', desc: 'Ensures reliable database transactions' },
+      { name: 'ETL', value: 'Extract → Transform → Load', desc: 'Moves data from source systems to data warehouses' },
+      { name: 'OLTP vs OLAP', value: 'OLTP: real-time transactions | OLAP: analytical reporting', desc: 'Data warehouse = OLAP; ERP = OLTP' },
+      { name: 'Data Governance', value: 'Policies, roles (stewards), standards for data as an asset', desc: 'Includes data quality, lineage, classification, retention' },
+      { name: 'Big Data 5 V\'s', value: 'Volume, Velocity, Variety, Veracity, Value', desc: '' },
+      { name: 'GDPR Key Rules', value: 'Lawful basis · Data minimization · Right to erasure · 72-hr breach notification · Privacy by design', desc: 'Applies to any org processing EU resident data' },
+    ],
+  },
+];
+
+function buildRefGrid() {
+  const grid = document.getElementById('refGrid');
+  grid.innerHTML = REF_DATA.map(card => `
+    <div class="ref-card" data-category="${card.category}">
+      <div class="ref-card-title">${card.title}</div>
+      ${card.items.map(item => `
+        <div class="ref-item">
+          <div class="ref-item-name">${item.name}</div>
+          <div class="ref-item-value">${item.value}</div>
+          ${item.desc ? `<div class="ref-item-desc">${item.desc}</div>` : ''}
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function filterRef(category, btn) {
+  document.querySelectorAll('.ref-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.ref-card').forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+  </script>
+</body>
+</html>
